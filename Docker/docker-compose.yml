@@ -3,7 +3,7 @@ version: '3.9'
 services:
   frontend:
     container_name: react-app
-    build: ./frontend
+    build: ./ComputexFrontend
     ports:
       - "80:80"
     depends_on:
@@ -13,7 +13,7 @@ services:
 
   backend:
     container_name: django-app
-    build: ./backend
+    build: ./Computex
     ports:
       - "8000:8000"
     depends_on:
