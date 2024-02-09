@@ -13,10 +13,10 @@
     sudo apt install nginx nodejs -y
 
 # CLONE THE CODE FROM GITHUB
-    git clone https://github.com/GerromeSieger/React-Sites.git  
+    git clone https://github.com/GerromeSieger/React-Site.git  
 
 # CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH npm OR yarn
-    cd React-Sites
+    cd React-Site
     npm install
   #or 
     yarn install
