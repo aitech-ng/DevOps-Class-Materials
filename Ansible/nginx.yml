@@ -1,0 +1,32 @@
+---
+- name: DEPLOYING WITH NGINX
+  hosts : [slave1]
+  become: True
+
+  tasks:
+  - name: GET UPDATES
+    apt:
+      update_cache: yes 
+
+  - name: INSTALLING NGINX
+    apt:
+     name: nginx
+     state: latest 
+
+  - name: Copy file
+    copy:
+      src: /home/ubuntu/stop-watch-app
+      dest: /var/www/html
+
+
+  - name: Copy file
+    copy:
+      src: /home/ubuntu/default
+      dest: /etc/nginx/sites-enabled/default
+
+  - name: START SERVICES
+    service:
+      name: nginx
+      state: restarted
+      enabled: yes
+

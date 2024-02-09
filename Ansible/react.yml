@@ -1,0 +1,52 @@
+---
+- name: DEPLOYING REACT APP
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Get Updates
+      apt:
+        update_cache: yes 
+
+    - name: Check if Node.js repo is already configured
+      stat:
+        path: /etc/apt/sources.list.d/nodesource.list
+      register: node_repo
+
+    - name: Add Node.js 18.x repository
+      shell: curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh && sudo bash nodesource_setup.sh
+      when: not node_repo.stat.exists
+
+    - name: Install Node.js & Nginx
+      apt:
+        name:
+          - nodejs
+          - nginx
+          - yarn
+        state: present
+
+    - name: Clone repo
+      git:
+        repo: https://github.com/bradtraversy/feedback-app.git
+        dest: /home/ubuntu/feedback-app
+        clone: yes
+
+    - name: Install dependencies with yarn
+      shell:
+        cmd: yarn install
+        chdir: /home/ubuntu/feedback-app
+
+    - name: Build app
+      shell:
+        cmd: yarn build
+        chdir: /home/ubuntu/feedback-app
+
+    - name: Move build folder to /var/www/html
+      shell:
+        cmd: sudo cp -r feedback-app/build/* /var/www/html
+        chdir: /home/ubuntu
+
+    - name: Restart Nginx
+      systemd:
+        name: nginx
+        state: restarted

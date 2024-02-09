@@ -1,0 +1,29 @@
+---
+- name: INSTALLING PACKAGES
+  hosts : [instance]
+  remote_user: ubuntu
+  become: True
+
+  tasks:
+  - name: GET UPDATES
+    apt:
+     update_cache: yes
+
+  - name: GIT PULL PLEMUZ-MEDIA
+    shell: "cd plemuz-media-service && git pull origin"
+
+  - name: GIT PULL PLEMUZ-AUTH
+    shell: "cd plemuz-authentication && git pull origin"    
+
+  - name: GIT COMMIT PLEMUZ-MEDIA
+    shell: "cd plemuz-media-service && git add . && git commit -m 'Deploying with docker' "
+
+  - name: GIT COMMIT PLEMUZ-AUTH
+    shell: "cd plemuz-authentication && git add . && git commit -m 'Deploying with docker' "
+
+  - name: GIT PUSH PLEMUZ-MEDIA
+    shell: "cd plemuz-media-service && git push origin"
+
+  - name: GIT PUSH PLEMUZ-AUTH
+    shell: "cd plemuz-authentication && git push origin"        
+

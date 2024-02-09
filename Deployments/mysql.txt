@@ -1,0 +1,25 @@
+## STEPS TO DEPLOY A MYSQL DATABASE ON A LINUX SERVER:
+
+# GET UPDATES
+    sudo apt update
+
+# INSTALL MYSQL WITH APT
+    sudo apt install mysql-server -y
+  
+# CHECK IF THE mysql SERVICE IS RUNNING 
+    sudo systemctl status mysql
+
+# ACCESS THE MYSQL SHELL AND CREATE DATABASE, USER AND GRANT USER ALL PRIVILEDGES 
+    sudo mysql -u root -h localhost
+
+      # Create the database 
+        CREATE DATABASE recipe;
+
+      # Create the user and set the password  
+        CREATE USER 'admin'@'localhost' IDENTIFIED BY '12345';
+
+      # Grant all privileges to the user for the database
+        GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'localhost';
+
+      # list databases
+        SHOW DATABASES;

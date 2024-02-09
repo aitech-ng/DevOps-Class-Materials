@@ -1,0 +1,10 @@
+- name: Run task based on OS
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - name: Task for Ubuntu
+      when: ansible_distribution == 'Ubuntu'
+      debug:
+        msg: "The value of my_var is {{ my_var }}"

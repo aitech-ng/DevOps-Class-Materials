@@ -1,0 +1,19 @@
+# CLone the Kube-Prometheus repo:
+git clone https://github.com/prometheus-operator/kube-prometheus.git
+
+# Apply the manifests files
+
+kubectl create namespace monitoring 
+kubectl apply --server-side -f manifests/setup
+kubectl wait --for condition=Established --all CustomResourceDefinition --namespace=monitoring
+kubectl apply -f manifests/
+
+
+# Check prometheus and grafana on localhost by port-forward
+
+kubectl port-forward -n monitoring service/prometheus-operated 9090:9090
+kubectl port-forward -n monitoring service/grafana 3000:3000
+
+# to delete the stack
+
+kubectl delete --ignore-not-found=true -f manifests/ -f manifests/setup

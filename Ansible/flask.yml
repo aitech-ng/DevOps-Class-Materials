@@ -1,0 +1,49 @@
+---
+- name: DEPLOYING FLASK APP
+  hosts : [slave]
+  become: True
+
+  tasks:
+  - name: Get Updates
+    apt:
+      update_cache: yes 
+
+  - name: Update Apt, Install Pip
+    apt:
+      name:
+        - python3-pip
+      state: present
+      update_cache: yes      
+
+  - name: Install Virtual Environment
+    pip:
+      name: virtualenv
+
+  - name: Clone Repository Ubuntu
+    git:
+      repo: https://github.com/GerromeSieger/FlaskChess.git
+      dest: /home/ubuntu/FlaskChess
+
+  - name: Create Virtual Environment Ubuntu
+    shell:
+      cmd: python3 -m virtualenv venv
+      chdir: /home/ubuntu
+
+  - name: Install Requirements in Virtual Environment Ubuntu  
+    pip:
+      requirements: /home/ubuntu/FlaskChess/requirements.txt
+      virtualenv: /home/ubuntu/venv   
+
+  - name: Copy the gunicorn.service file
+    shell:
+      cmd: sudo cp FlaskChess/gunicorn.service /etc/systemd/system
+
+  - name: Reload Daemond
+    shell:
+      cmd: sudo systemctl daemon-reload
+
+  - name: Start and Enable Gunicorn Service Ubuntu
+    service:
+      name: gunicorn
+      state: started
+      enabled: yes      

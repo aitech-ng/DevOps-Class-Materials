@@ -1,0 +1,28 @@
+---
+- name: DEPLOYING A STATIC SITE WITH NGINX
+  hosts : [slave1]
+  become: True
+
+  tasks:
+  - name: Get Updates
+    apt:
+      update_cache: yes 
+
+  - name: Installing Nginx
+    apt:
+     name: nginx
+     state: latest 
+
+  - name: Delete html file from /var/www/html
+    command: sudo rm /var/www/html/index.nginx-debian.html
+
+  - name: Clone Repository
+    git:
+      repo: https://github.com/GerromeSieger/stop-watch-app.git
+      dest: /var/www/html
+
+  - name: Restart Nginx
+    service:
+      name: nginx
+      state: restarted
+      enabled: yes
