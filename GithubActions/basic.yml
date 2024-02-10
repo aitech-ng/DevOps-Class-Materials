@@ -1,0 +1,36 @@
+name: Basic-Workflow/Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Echo Building
+        run: echo "BUILDING"
+        
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Echo Testing
+        run: echo "TESTING"
+        
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Echo Deploying
+        run: echo "DEPLOYING"
