@@ -1,27 +1,27 @@
 ## STEPS TO DEPLOY A .NET/ASP.NET REST API ON A LINUX SERVER:
 
 # GET UPDATES
-    sudo apt update
+sudo apt update
 
 # INSTALL DOTNET 7 SDK
-    sudo apt install -y dotnet-sdk-7.0
+sudo apt install -y dotnet-sdk-7.0
 
 # INSTALL DOTNET EF WITH DOTNET TOOL
-    dotnet tool install --global dotnet-ef --version 7.0.0
-    export PATH="$PATH:/home/ubuntu/.dotnet/tools"
+dotnet tool install --global dotnet-ef --version 7.0.0
+export PATH="$PATH:/home/ubuntu/.dotnet/tools"
 
 # CLONE THE CODE FROM GITHUB
-    git clone https://github.com/GerromeSieger/RecipeApp-Dotnet.git
+git clone https://github.com/GerromeSieger/RecipeApp-Dotnet.git
 
 # CHANGE DIRECTORY INTO THE CLONED REPO AND RESTORE PACKAGES WITH DOTNET
-    cd RecipeApp-Dotnet
-    dotnet restore
+cd RecipeApp-Dotnet
+dotnet restore
 
 # CONFIRM DATABASE CONNECTION
 
 # RUN MIGRATIONS AND UPDATE DATABASE
-    dotnet ef migrations add InitialMigration
-    dotnet ef database update
+dotnet ef migrations add InitialMigration
+dotnet ef database update
 
 # RUN APPLICATION
-    dotnet run --urls http://0.0.0.0:5000
+dotnet run --urls http://0.0.0.0:5000

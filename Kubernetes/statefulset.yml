@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-statefulset
+spec:
+   serviceName: db
+   replicas: 1
+   selector:
+    matchLabels:
+      app: db
+   template:
+    metadata:
+      labels:
+        app: db
+        selector: db
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:12.12-alpine
+          ports: 
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: user          
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: database
+          volumeMounts:
+            - name: pvc
+              mountPath: /data/db
+   volumeClaimTemplates:
+      - metadata:
+          name: pvc
+        spec: 
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi    

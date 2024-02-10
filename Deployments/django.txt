@@ -1,42 +1,42 @@
 ## STEPS TO DEPLOY A PYTHON/DJANGO REST API ON A LINUX SERVER WITH GUNICORN:
 
 # GET UPDATES
-    sudo apt update
+sudo apt update
 
 # INSTALL THE PIP PACKAGE MANAGER  
-    sudo apt install python3-pip -y
+sudo apt install python3-pip -y
 
 # INSTALL VIRTUAL ENVIRONMENT PACKAGE WITH PIP
-    sudo pip install virtualenv
+sudo pip install virtualenv
 
 # CREATE A NEW VIRTUAL ENVIRONMENT NAMED "venv" AND ACTIVATE THE VIRTUAL ENVIRONMENT
-    python3 -m virtualenv venv
-    source venv/bin/activate
+python3 -m virtualenv venv
+source venv/bin/activate
 
 # CLONE THE CODE FROM GITHUB
-    git clone https://github.com/GerromeSieger/RecipeApp-Django.git
+git clone https://github.com/GerromeSieger/RecipeApp-Django.git
 
 # CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH PIP
-    cd RecipeApp-Django
-    pip install -r requirements.txt
+cd RecipeApp-Django
+pip install -r requirements.txt
 
 # CONFIRM DATABASE CONNECTION
     
 # RUN MIGRATIONS TO THE DATABASE 
-    python manage.py migrate
+python manage.py migrate
 
 # RUN APPLICATION WITH GUNICORN
-    gunicorn --bind 0.0.0.0:8000 RecipeApp.wsgi:application
+gunicorn --bind 0.0.0.0:8000 RecipeApp.wsgi:application
 
 ## ALTERNATIVE DEPLOYMENT STRATEGY AFTER RUNNING MIGRATIONS
 
 # CREATE A SERVICE FOR GUNICORN TO RUN ON THE BACKGROUND WITH SYSTEMD
-    nano gunicorn.service
+nano gunicorn.service
 
 # COPY THE GUNICORN SERVICE FILE TO THE SYSTEMD'S MAIN FOLDER
-    sudo cp gunicorn.service /etc/systemd/system
+sudo cp gunicorn.service /etc/systemd/system
 
 # RELOAD SYSTEMD & START GUNICORN SERVICE
-    sudo systemctl daemon-reload
-    sudo systemctl start gunicorn
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
   

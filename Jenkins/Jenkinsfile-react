@@ -1,0 +1,49 @@
+pipeline {
+
+  agent any
+
+  triggers {
+    githubPush()
+  }
+
+  environment {
+    IP_CRED = credentials('server-ip') 
+  }
+    
+  stages {
+    stage('Build') { 
+      agent {
+        docker { image 'node:18-alpine' }  
+      }
+      steps {
+        sh 'yarn install' 
+        sh 'yarn build' 
+      }
+    }
+
+    stage('Test') {
+      agent {
+        docker { image 'node:18-alpine' }  
+      }
+      steps {
+        sh 'echo yarn test'
+      }
+    }
+
+    stage ('Deploy') {
+        steps{
+            withCredentials([sshUserPrivateKey(credentialsId: 'remote-server-cred', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'REMOTE_USER')]) {
+            sh """
+            ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${REMOTE_USER}@${IP_CRED} '
+            cd React-Site
+            git pull origin
+            yarn install
+            yarn build
+            sudo cp -r build/* /var/www/html
+           '
+            """
+            }
+        }
+    }
+  }
+}

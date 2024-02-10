@@ -1,32 +1,35 @@
 ## STEPS TO DEPLOY A NODEJS/EXPRESSJS REST API ON A LINUX SERVER:
 
 # GET UPDATES
-    sudo apt update
+sudo apt update
 
 # DOWNLOAD A BASH SCRIPT THAT WOULD UPDATE THE NODESOURCE TO VERSION 18
-    curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
 
 # RUN THE BASH SCRIPT
-    sudo bash nodesource_setup.sh
+sudo bash nodesource_setup.sh
 
 # INSTALL NODEJS
-    sudo apt install nodejs -y
+sudo apt install nodejs -y
+
+# INSTALL YARN (OPTIONAL)
+sudo npm install -g yarn
 
 # CLONE THE CODE FROM GITHUB
-    git clone https://github.com/GerromeSieger/RecipeApp-Node.git
+git clone https://github.com/GerromeSieger/RecipeApp-Node.git
 
 # CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH npm OR yarn
-    cd RecipeApp-Node
-    npm install
+cd RecipeApp-Node
+npm install
   #or 
-    yarn install
+yarn install
 
 # COPY THE .envEXAMPLE file to .env
-    cp .envEXAMPLE .env
+cp .envEXAMPLE .env
 
 # CONFIRM DATABASE CONNECTION
 
 # RUN THE APPLICATION
-    npm run start
+npm run start
   #or 
-    yarn start
+yarn start

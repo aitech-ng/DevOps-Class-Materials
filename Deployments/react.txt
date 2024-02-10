@@ -1,33 +1,36 @@
 ## STEPS TO DEPLOY A REACT SITE ON A LINUX SERVER WITH NGINX:
 
 # GET UPDATES
-    sudo apt update
+sudo apt update
 
 # DOWNLOAD A BASH SCRIPT THAT WOULD UPDATE THE NODESOURCE TO VERSION 18
-    curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
 
 # RUN THE BASH SCRIPT
-    sudo bash nodesource_setup.sh
+sudo bash nodesource_setup.sh
 
 # INSTALL NGINX & NODEJS
-    sudo apt install nginx nodejs -y
+sudo apt install nginx nodejs -y
+
+# INSTALL YARN (OPTIONAL)
+sudo npm install -g yarn
 
 # CLONE THE CODE FROM GITHUB
-    git clone https://github.com/GerromeSieger/React-Site.git  
+git clone https://github.com/GerromeSieger/React-Site.git  
 
 # CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH npm OR yarn
-    cd React-Site
-    npm install
+cd React-Site
+npm install
   #or 
-    yarn install
+yarn install
 
 # BUILD THE FINAL CODE INTO A FOLDER
-    npm run build
+npm run build
   #or 
-    yarn build
+yarn build
 
 # COPY THE CONTENT OF THE FOLDER TO WHERE NGINX IS EXPECTING THE WEB CONTENT
-    sudo cp -r build/* /var/www/html
+sudo cp -r build/* /var/www/html
 
 # RESTART THE NGINX SERVICE
-    sudo systemctl restart nginx
+sudo systemctl restart nginx
