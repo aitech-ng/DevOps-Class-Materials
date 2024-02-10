@@ -21,6 +21,9 @@
   #or 
     yarn install
 
+# COPY THE .envEXAMPLE file to .env
+    cp .envEXAMPLE .env
+
 # CONFIRM DATABASE CONNECTION
 
 # RUN THE APPLICATION

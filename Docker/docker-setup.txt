@@ -1,0 +1,4 @@
+### Install docker & docker-compose on linux
+
+sudo apt update 
+sudo apt install docker.io docker-compose -y 

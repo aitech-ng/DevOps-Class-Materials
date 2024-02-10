@@ -14,9 +14,9 @@
 
 # CREATE A USER WITH A PASSWORD ON MONGO SHELL
     mongosh
-    use recipedb
+    use recipe
       db.createUser({
       user: "admin",
-      pwd: "password",
-      roles: [ { role: "readWrite", db: "reciedb" } ]
+      pwd: "12345",
+      roles: [ { role: "readWrite", db: "recipe" } ]
     }) 

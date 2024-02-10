@@ -23,3 +23,16 @@
 
       # list databases
         SHOW DATABASES;
+
+# IF THE DATABASE IS TO BE ACCESSED EXTERNALLY OR FROM A CONTAINER
+    sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+    # change the bind address to: bind-address=0.0.0.0
+
+    # ACCESS THE MYSQL SHELL
+      sudo mysql -u root -h localhost
+
+      # Create the user and set the password  
+        CREATE USER 'admin'@'<publicIP>' IDENTIFIED BY '12345';
+
+      # Grant all privileges to the user for the database
+        GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'<publicIP>';

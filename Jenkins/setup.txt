@@ -1,2 +1,35 @@
 ### Install Jenkins on a ubuntu machine
 
+# Install Java
+
+# Import the Jenkins GPG key:
+
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+# Add the Jenkins repository to your system:
+
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+# Update your local package index:
+
+sudo apt update
+
+## If you see the GPG error "NO_PUGKEY" run this:
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <keyinerrormessage>
+
+# Install Jenkins:
+
+sudo apt install jenkins -y
+
+# Open localhost:8080 and Configure jenkins
+
+# Setup jenkins's linux user password on terminal and install dependencies
+
+sudo passwd jenkins
+
+usermod -aG sudo jenkins
+
+sudo su jenkins
+
+sudo apt install git docker.io

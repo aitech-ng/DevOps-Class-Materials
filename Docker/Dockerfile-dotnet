@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+
+WORKDIR /dotnet
+
+COPY . .
+
+RUN dotnet restore
+
+RUN dotnet tool install --global dotnet-ef --version 7.0.0
+
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+COPY start.sh .
+
+RUN chmod +x start.sh
+
+RUN dotnet publish -c Release -o out
+
+EXPOSE 5000
+
+CMD sh start.sh
