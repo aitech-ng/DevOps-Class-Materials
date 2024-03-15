@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-  name: example-app
-  namespace: default
+    release: prometheus-community
+  name: mysm
 spec:
   endpoints:
   - interval: 30s

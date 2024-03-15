@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: react
-  replicas: 2
+  replicas: 10
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: reactapp-container
-        image: aimvector/python:metrics
+        image: gerrome/staticwebsite
         imagePullPolicy: Always
         ports:
         - containerPort: 80

@@ -6,7 +6,7 @@ sudo apt update
 # INSTALL MYSQL WITH APT
 sudo apt install mysql-server -y
   
-# CHECK IF THE mysql SERVICE IS RUNNING 
+# CHECK IF THE mysql SERVICE IS RUNNING (OPTIONAL)
 sudo systemctl status mysql
 
 # ACCESS THE MYSQL SHELL AND CREATE DATABASE, USER AND GRANT USER ALL PRIVILEDGES 

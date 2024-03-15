@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certificate
+#  namespace: default
+spec:
+  dnsNames:
+    - gerrome.com.ng
+  secretName: letsencrypt-staging
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer

@@ -3,9 +3,9 @@ version: '3.9'
 services:
   frontend:
     container_name: react-app
-    build: ./ComputexFrontend
+    build: ./ComputexFrontend # docker build -t ./ComputexFrontend
     ports:
-      - "80:80"
+      - "80:80" # docker run -p 80:80 --name react-app react-image
     depends_on:
       - backend
     networks:
@@ -23,12 +23,12 @@ services:
       - frontend_network      
 
   database:
-    container_name: postgres
+    container_name: postgres 
     image: postgres:latest
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=computex
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:

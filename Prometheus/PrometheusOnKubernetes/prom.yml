@@ -6,11 +6,11 @@ metadata:
     app.kubernetes.io/instance: k8s
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.32.1
+    app.kubernetes.io/version: 2.50.1
   name: applications
-  namespace: monitoring
+#  namespace: monitoring
 spec:
-  image: quay.io/prometheus/prometheus:v2.32.1
+  image: quay.io/prometheus/prometheus:v2.50.1
   nodeSelector:
     kubernetes.io/os: linux
   replicas: 1
@@ -28,4 +28,4 @@ spec:
     matchLabels:
       kubernetes.io/metadata.name: default
   serviceMonitorSelector: {} #match all servicemonitors
-  version: 2.32.1
+  version: 2.50.1

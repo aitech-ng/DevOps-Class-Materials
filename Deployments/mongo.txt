@@ -3,12 +3,13 @@
 # GET UPDATES
 sudo apt update
 
-# IMPORT THE MONGODB GPG KEY AND ADD THE MONGODB REPOSITORY TO YOUR SYSTEM’S PACKAGE MANAGER 
+# IMPORT THE MONGODB GPG KEY AND ADD THE MONGODB REPOSITORY TO YOUR SYSTEM’S PACKAGE MANAGER
 wget -nc https://www.mongodb.org/static/pgp/server-6.0.asc
 cat server-6.0.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/mongodb.gpg >/dev/null 
 sudo sh -c 'echo "deb [ arch=amd64,arm64 signed-by=/etc/apt/keyrings/mongodb.gpg] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" >> /etc/apt/sources.list.d/mongo.list'
   
 # INSTALL MONGODB AND START MONGODB SERVICE
+sudo apt update
 sudo apt install mongodb-org
 sudo systemctl start mongod 
 
