@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: test
   labels:
-    app: app
+    app: react
