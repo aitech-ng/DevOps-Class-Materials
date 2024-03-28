@@ -1,0 +1,61 @@
+name: DevOps-GitHibActions
+on: push
+jobs:
+  # Build Job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+      - name: Install Dependencies
+        run:  |
+          cd ComputexFrontend
+          npm install
+      - name: Build Project
+        run:  |
+          cd ComputexFrontend
+          npm run build
+      - name: Upload artifact to enable deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-app
+          path: ./ComputexFrontend/dist
+  # Deploy Job
+  deploy:
+    # Add a dependency to the build job
+  
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: goto working directory
+        run:  |
+          cd ComputexFrontend
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: react-app
+          path: ./ComputexFrontend/dist
+      - name: Copy files to server  
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.PRIVATE_KEY }} 
+          source: "./ComputexFrontend/dist"
+          target: "/home/ubuntu"
+
+      - name: Copy code to /var/www/html
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            sudo cp -r ComputexFrontend/dist/* /var/www/html
+            sudo systemctl restart nginx

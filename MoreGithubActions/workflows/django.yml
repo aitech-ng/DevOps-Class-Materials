@@ -1,0 +1,79 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python /home/runner/work/Containerisation-React-Django-App/Containerisation-React-Django-App/Computex/manage.py test
+  
+  Publish_to_dockerhub:
+    # Add a dependency to the build job
+    
+    name: setup-and-login-docker
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: 281188/pythonspace
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./Computex
+          file: ./Computex/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: Publish_to_dockerhub
+    steps:
+    - name: Deploy to Azure Virtual machine
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AZUREHOST }}
+        username: ${{ secrets.AZUREUSER }}
+        key: ${{ secrets.AZUREPRIVATE_KEY }}
+        script: |
+          cd /home/innocentken/Containerisation-React-Django-App
+          sudo git pull origin
+          sudo docker-compose pull
+          sudo docker-compose up --force-recreate
+
+
