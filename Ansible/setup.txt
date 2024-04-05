@@ -11,6 +11,8 @@ sudo nano /etc/ansible/hosts
     ### input the values below
 [slave1]
 ipaddress ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
+[slave2]
+ipaddress ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
     ###
 
 # Copy the content of slave node's private key from your local machine (Downloads folder of your windows or mac) to the master node

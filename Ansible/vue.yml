@@ -1,0 +1,13 @@
+---
+- name: DEPLOYING A Vuejs SITE WITH NGINX
+  hosts : [slave1]
+  become: True
+
+  tasks:
+  - name: Copy Vue script to slave node
+    copy: 
+      src: /home/ubuntu/vue.sh #master node
+      dest: /home/ubuntu        #slave node
+
+  - name: Run script
+    command: sh vue.sh

@@ -17,6 +17,7 @@ sudo apt update
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <key-in-error-message>
 
 # Install Jenkins:
+sudo apt update
 sudo apt install jenkins -y
 
 # Open localhost:8080 and Configure jenkins

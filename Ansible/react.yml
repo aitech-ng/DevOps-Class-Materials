@@ -1,6 +1,6 @@
 ---
 - name: DEPLOYING REACT APP
-  hosts: all
+  hosts: [slave1]
   become: true
 
   tasks:
@@ -23,7 +23,7 @@
           - nodejs
           - nginx
           - yarn
-        state: present
+        state: latest
 
     - name: Clone repo
       git:
@@ -32,19 +32,13 @@
         clone: yes
 
     - name: Install dependencies with yarn
-      shell:
-        cmd: yarn install
-        chdir: /home/ubuntu/feedback-app
+      command: cd /home/ubuntu/feedback-app && yarn install
 
     - name: Build app
-      shell:
-        cmd: yarn build
-        chdir: /home/ubuntu/feedback-app
+      command: cd /home/ubuntu/feedback-app && yarn build
 
-    - name: Move build folder to /var/www/html
-      shell:
-        cmd: sudo cp -r feedback-app/build/* /var/www/html
-        chdir: /home/ubuntu
+    - name: Copy build folder to /var/www/html
+      command: sudo cp -r /home/ubuntu/feedback-app/build/* /var/www/html
 
     - name: Restart Nginx
       systemd:

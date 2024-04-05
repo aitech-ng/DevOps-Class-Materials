@@ -22,7 +22,7 @@ metadata:
   namespace: test
 spec:
    serviceName: postgres-service
-   replicas: 1
+   replicas: 3
    selector:
     matchLabels:
       app: db

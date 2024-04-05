@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  backend:
+    depends_on:
+      database:
+          condition: service_healthy
+    container_name: java-container
+    build: .
+    ports:
+      - "8080:8080"
+
+  database:
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+    container_name: mysql-container
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: recipe
+      MYSQL_USER: admin
+      MYSQL_PASS: 12345
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+volumes:
+  db:

@@ -1,0 +1,13 @@
+---
+- name: DEPLOYING A REACT SITE WITH NGINX
+  hosts : [slave1]
+  become: True
+
+  tasks:
+  - name: Copy React script to slave node
+    copy: 
+      src: /home/ubuntu/react.sh
+      dest: /home/ubuntu
+
+  - name: Run script
+    command: sh react.sh

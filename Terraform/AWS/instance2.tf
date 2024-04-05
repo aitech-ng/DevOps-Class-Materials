@@ -14,7 +14,7 @@ provider "aws" {
 resource "aws_instance" "master_node" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
-  key_name = "devkey"
+  key_name = var.key_pair
   security_groups = [aws_security_group.instance_security_group.id]
   tags = {
     Name = "master-node"

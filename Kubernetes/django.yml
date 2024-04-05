@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: django
-  replicas: 2
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -20,7 +20,7 @@ spec:
       labels:
         app: django
     spec:
-      containers:
+      containers: 
       - name: django-container
         image: gerrome/computex-django
         imagePullPolicy: Always

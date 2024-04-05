@@ -1,32 +1,21 @@
 ---
-- name: DEPLOYING WITH NGINX
+- name: INSTALLING NGINX
   hosts : [slave1]
   become: True
 
   tasks:
-  - name: GET UPDATES
+  - name: GET UPDATES #sudo apt update
     apt:
       update_cache: yes 
 
-  - name: INSTALLING NGINX
+  - name: INSTALLING NGINX #sudo apt install nginx
     apt:
      name: nginx
-     state: latest 
+     state: latest
 
-  - name: Copy file
-    copy:
-      src: /home/ubuntu/stop-watch-app
-      dest: /var/www/html
-
-
-  - name: Copy file
-    copy:
-      src: /home/ubuntu/default
-      dest: /etc/nginx/sites-enabled/default
-
-  - name: START SERVICES
+  - name: START SERVICES #sudo systemctl restart nginx
     service:
       name: nginx
       state: restarted
-      enabled: yes
+      enabled: yes    #sudo systemctl enable nginx
 
