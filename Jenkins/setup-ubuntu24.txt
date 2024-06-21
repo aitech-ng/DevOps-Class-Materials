@@ -1,0 +1,29 @@
+## INSTALL JENKINS ON A UBUNTU MACHINE
+
+# Get updates
+
+sudo apt update
+
+# Download the pkg key and Append the Debian package repository to the server’s sources.list.
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian/jenkins.io-2023.key
+
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null 
+  
+
+# Install Java
+
+sudo apt install fontconfig openjdk-17-jre  
+
+# Get updates again and install Jenkins
+
+sudo apt update 
+sudo apt install jenkins -y
+
+# Enable and start jenkins service
+
+sudo systemctl enable jenkins
+sudo systemctl start jenkins

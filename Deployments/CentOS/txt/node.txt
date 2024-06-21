@@ -1,0 +1,33 @@
+## STEPS TO DEPLOY A NODEJS/EXPRESSJS REST API ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update -y
+
+# INSTALL NODE.JS VERSION 18
+curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs 
+
+# INSTALL YARN (OPTIONAL)
+sudo npm install -g yarn
+
+# INSTALL GIT (IF NOT ALREADY INSTALLED)
+sudo yum install -y git
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/RecipeApp-Node.git
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH npm OR yarn
+cd RecipeApp-Node
+npm install
+# or 
+# yarn install
+
+# COPY THE .envEXAMPLE file to .env
+cp .envEXAMPLE .env
+
+# CONFIRM DATABASE CONNECTION
+
+# RUN THE APPLICATION
+npm run start
+# or 
+# yarn start

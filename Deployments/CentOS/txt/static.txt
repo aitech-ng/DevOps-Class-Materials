@@ -1,0 +1,19 @@
+## STEPS TO DEPLOY A STATIC WEBSITE ON A CENTOS WITH NGINX:
+
+# GET UPDATES
+sudo apt update
+
+# INSTALL NGINX  
+sudo apt install nginx -y
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/Static-Site.git
+
+# LOOK AT NGINX CONFIGURATION FILE (Optional)
+sudo nano /etc/nginx/sites-enabled/default
+
+# COPY CODE THAT WAS CLONED FROM GITHUB TO WHERE NGINX IS EXPECTING THE STATIC CONTENT
+sudo cp -r Static-Site/* /usr/share/nginx/html
+
+# RESTART THE NGINX SERVICE
+sudo systemctl restart nginx

@@ -1,0 +1,35 @@
+## STEPS TO DEPLOY A JAVA/SPRINGBOOT REST API ON A UBUNTU SERVER:
+
+# GET UPDATES
+sudo apt update
+
+# INSTALL RELEVANT OPENJDK
+sudo apt install openjdk-17-jdk
+
+# INSTALL MAVEN 
+wget https://downloads.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+tar -xvf apache-maven-3.9.6-bin.tar.gz
+sudo ln -s /opt/apache-maven-3.9.6 /opt/maven
+sudo nano /etc/profile.d/maven.sh
+
+*paste this*
+[
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    export M2_HOME=/opt/maven
+    export MAVEN_HOME=/opt/maven
+    export PATH=${M2_HOME}/bin:${PATH}
+]
+sudo chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/RecipeApp-Java.git
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH MAVEN
+cd RecipeApp-Java
+mvn clean install
+
+# CONFIRM DATABASE CONNECTION 
+
+# RUN APPLICATION
+mvn spring-boot:run

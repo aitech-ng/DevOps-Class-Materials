@@ -1,0 +1,52 @@
+## STEPS TO DEPLOY A PHP/LARAVEL REST API ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update -y
+
+# INSTALL EPEL REPOSITORY
+sudo yum install epel-release -y
+
+# INSTALL REMI REPOSITORY
+sudo yum install http://rpms.remirepo.net/enterprise/remi-release-$(rpm -E %rhel).rpm -y
+
+# INSTALL YUM-UTILS
+sudo yum install yum-utils -y
+
+# DISABLE DEFAULT PHP MODULE
+sudo yum module reset php -y
+sudo yum module disable php -y
+
+# ENABLE REMI REPOSITORY FOR PHP 8.2
+sudo yum module enable php:remi-8.2 -y
+
+# INSTALL PHP 8.2 AND REQUIRED EXTENSIONS
+sudo yum install php php-cli php-common php-fpm php-mysqlnd php-zip php-devel php-gd php-mcrypt php-mbstring php-curl php-xml php-pear php-bcmath php-json php-dom -y
+
+# INSTALL COMPOSER
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+sudo chmod +x /usr/local/bin/composer
+
+# INSTALL LARAVEL
+composer global require laravel/installer
+
+# INSTALL GIT (IF NOT ALREADY INSTALLED)
+sudo yum install git -y
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/RecipeApp-Laravel.git
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH COMPOSER
+cd RecipeApp-Laravel
+composer install
+
+# CONFIRM DATABASE CONNECTION 
+
+# COPY THE .env.example FILE TO .env
+cp .env.example .env
+
+# RUN MIGRATIONS 
+php artisan migrate:fresh
+
+# RUN APPLICATION
+php artisan serve --host=0.0.0.0 --port=8080

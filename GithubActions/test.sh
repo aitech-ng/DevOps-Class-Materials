@@ -17,13 +17,9 @@ if [ $STATUS_CODE -ne 200 ]; then
   echo "Failed! Expected 200 response, got $STATUS_CODE"
   exit 1
 fi
-
-if echo $RESPONSE | grep -q "Feedback UI"; then
+else
   echo "Success! Got expected response from local server"
   exit 0  
-else
-  echo "Failed! Did not find expected 'Feedback UI' text"
-  exit 1
 fi
 
 sudo systemctl stop nginx

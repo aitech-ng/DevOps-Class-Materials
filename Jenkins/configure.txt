@@ -1,0 +1,63 @@
+# Open ipaddress:8080 and Configure jenkins
+
+# Grab the password
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+# Install plugins and setup Jenkins user
+
+# Install more/necessary plugins specific to tasks
+    - Manage Jenkins -> Plugins -> Available plugins
+
+# Create an access token on your github account for Jenkins
+    - (Github) Account settings -> Developer settings -> personal access token 
+    - (Gitlab) Account settings -> personal access token 
+
+# Setup project on the dashboard (Pipeline for a single branch in a repo)
+    - New Item -> Pipeline
+    - Select the source which will be git or github or gitlab or bitbucket and paste the link to your repo
+    - Configure your credentials to connect to your repo, 
+    - for github; Pipeline -> Pipeline script from SCM -> Git -> Paste repo url and set up these credentials (username: GithubUsername, password: AccessToken)
+    - for gitlab step 1; Manage Jenkins -> System -> Gitlab -> Add Access Token to credentials as secret text -> Test connection
+    - for gitlab step 2; Select project -> Configure -> GitLab Connection (select the gitlab connection created in step 1) -> Enter the repo url and select the relevant build triggers -> Generate secret token for the webhook
+
+# Setup project on the dashboard (Multi branch pipeline for a repo)
+    - New Item -> Multi branch pipeline
+    - Select the source which will be git or github or gitlab or bitbucket and paste the link to your repo    
+    - Configure your credentials to connect to your repo; 
+    - for github Source -> Paste repo url and set up these credentials (username: GithubUsername, password: AccessToken)
+    - for gitlab Source -> Paste repo url and set up these credentials (username: GitlabUsername, password: AccessToken)
+
+# Setup webhook on repo 
+    - (Github) settings -> webhook -> paste this -> http://ipaddress:8080/github-webhook/
+    - (Gitlab pipeline project) settings -> webhook -> paste this -> http://ipaddress:8080/project/JobName -> Secret Token - paste the generated secret token from Jenkins
+    - (Gitlab Multi branch pipeline project) settings -> integrations -> Jenkins -> paste this -> http://ipaddress:8080 on "Jenkins server URL" -> Edit Project Name with the name of the job on Jenkins and edit username and password. 
+
+# Alternatively Setup jenkins's linux user password on terminal and install dependencies 
+
+sudo passwd jenkins
+usermod -aG sudo jenkins
+sudo su jenkins
+sudo apt install git docker.io -y
+sshkeygen
+cat .ssh/id_rsa.pub
+# Copy public key to github or gitlab's account ssh settings
+
+
+
+#   Configure jenkins slave agent on another VM
+
+# Create a virtual machine
+
+# Install and set up the dependencies needed for it to be a jenkins slave
+
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+sudo adduser jenkins
+sudo usermod -aG sudo jenkins
+sudo mkdir -p /home/jenkins
+sudo chown -R jenkins:jenkins /home/jenkins
+sudo chmod 755 /home/jenkins
+
+# Set up agent node on Jenkins
+    - Manage Jenkins -> Nodes -> New Node -> Select permanent agent -> Launch Via SSH and add credentials for username the private key to connect to the slave node -> Ensure the root directory is /home/jenkins

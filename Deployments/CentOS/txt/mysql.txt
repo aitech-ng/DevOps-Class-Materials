@@ -1,0 +1,30 @@
+## STEPS TO DEPLOY A MYSQL DATABASE ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update
+
+# INSTALL MYSQL WITH YUM
+sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+sudo dnf install -y mysql-community-server 
+
+#  START AND ENABLE MYSQL SERVICE
+sudo systemctl start mysqld.service
+sudo systemctl enable mysqld
+
+# SECURE MYSQL INSTALLATION
+sudo mysql_secure_installation
+
+# ACCESS THE MYSQL SHELL AND CREATE DATABASE, USER AND GRANT USER ALL PRIVILEDGES 
+sudo mysql -u root
+
+  # Create the database 
+  CREATE DATABASE recipe;
+
+  # Create the user and set the password  
+  CREATE USER 'admin'@'localhost' IDENTIFIED BY '12345';  
+
+  # Grant all privileges to the user for the database
+  GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'localhost';
+
+  # list databases
+  SHOW DATABASES;

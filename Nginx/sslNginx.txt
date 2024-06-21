@@ -1,0 +1,30 @@
+### Install SSL on a linux server with certbot and nginx
+
+# Install Certbot and it’s Nginx plugin with apt:
+
+sudo apt install certbot python3-certbot-nginx
+
+#  Configure the correct server block in your Nginx configuration
+
+sudo nano /etc/nginx/sites-available/example.com
+
+# Paste this
+...
+server_name example.com www.example.com;
+...
+
+# Verify the syntax of your configuration edits
+
+sudo nginx -t
+
+# Reload Nginx to load the new configuration if the syntax is correct
+
+sudo systemctl reload nginx
+
+# Obtaining an SSL Certificate
+
+sudo certbot --nginx -d example.com -d www.example.com
+
+# Verifying Certbot Auto-Renewal
+
+sudo systemctl status certbot.timer

@@ -6,23 +6,9 @@ on:
       - main
       
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.2
-        with:
-          node-version: 18.x
-
-      - name: Test App
-        run: cat package.json
 
   build:
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,13 +27,29 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: react-app
-          path: build           
-        
-  deploy:
+          path: build      
+
+  test:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with: 
+          name: react-app
+          path: build
+
+      - name: Run Shell script for testing
+        run: sh test.sh          
+        
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+
     - name: Download artifact
       uses: actions/download-artifact@v3
       with: 
@@ -55,7 +57,7 @@ jobs:
         path: build
 
     - name: Copy files to server  
-      uses: appleboy/scp-action@master
+      uses: appleboy/scp-action@master # scp -r -i "key.pem" /home/ubuntu/Downloads ubuntu@67.8784.57.46:/home/ubuntu
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}

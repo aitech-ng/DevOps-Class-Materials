@@ -17,4 +17,5 @@ resource "aws_instance" "instance1" {
   tags = {
     Name = "my-instance"
   }
+  count = 20
 }

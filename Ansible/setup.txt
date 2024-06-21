@@ -25,3 +25,9 @@ chmod 400 key.pem
 
 # Test connection
 ansible slave1 -m ping
+
+
+### CENTOS
+
+sudo yum update -y
+sudo yum install ansible -y

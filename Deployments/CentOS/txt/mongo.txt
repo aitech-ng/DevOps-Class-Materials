@@ -1,0 +1,28 @@
+## STEPS TO DEPLOY A MONGODB DATABASE ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update -y
+
+# CREATE A MONGODB REPOSITORY FILE
+sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo << EOF
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/6.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+EOF
+
+# INSTALL MONGODB AND START MONGODB SERVICE
+sudo yum install -y mongodb-org
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+# CREATE A USER WITH A PASSWORD ON MONGO SHELL
+mongosh
+use recipe
+db.createUser({
+  user: "admin",
+  pwd: "12345",
+  roles: [ { role: "readWrite", db: "recipe" } ]
+})

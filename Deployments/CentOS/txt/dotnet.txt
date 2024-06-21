@@ -1,0 +1,27 @@
+## STEPS TO DEPLOY A .NET/ASP.NET REST API ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update
+
+# INSTALL DOTNET 7 SDK AND GIT
+sudo yum install dotnet-sdk-7.0 git -y
+
+# INSTALL DOTNET EF WITH DOTNET TOOL
+dotnet tool install --global dotnet-ef --version 7.0.0
+export PATH="$PATH:~/.dotnet/tools"
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/RecipeApp-Dotnet.git
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND RESTORE PACKAGES WITH DOTNET
+cd RecipeApp-Dotnet
+dotnet restore
+
+# CONFIRM DATABASE CONNECTION
+
+# RUN MIGRATIONS AND UPDATE DATABASE
+dotnet ef migrations add InitialMigration
+dotnet ef database update
+
+# RUN APPLICATION
+dotnet run --urls http://0.0.0.0:5000

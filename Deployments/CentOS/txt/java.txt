@@ -1,0 +1,19 @@
+## STEPS TO DEPLOY A JAVA/SPRINGBOOT REST API ON A CENTOS SERVER:
+
+# GET UPDATES
+sudo yum update 
+
+# INSTALL RELEVANT OPENJDK, GIT & MAVEN
+sudo yum install java-17-openjdk-devel git maven -y
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/RecipeApp-Java.git
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH MAVEN
+cd RecipeApp-Java
+mvn clean install
+
+# CONFIRM DATABASE CONNECTION 
+
+# RUN APPLICATION
+mvn spring-boot:run

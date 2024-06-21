@@ -1,0 +1,4 @@
+## SET UP JENKINS WITH DOCKER-COMPOSE ON UBUNTU MACHINE
+
+
+docker exec jenkins /bin/cat /var/jenkins_home/secrets/initialAdminPassword

@@ -1,0 +1,34 @@
+## STEPS TO DEPLOY A REACT SITE ON A CENTOS SERVER WITH NGINX:
+
+# GET UPDATES
+sudo yum update -y
+
+# INSTALL NODE.JS VERSION 18
+curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs 
+
+# INSTALL YARN (OPTIONAL)
+sudo npm install -g yarn
+
+# INSTALL GIT (IF NOT ALREADY INSTALLED)
+sudo yum install -y git
+
+# CLONE THE CODE FROM GITHUB
+git clone https://github.com/GerromeSieger/React-Site.git  
+
+# CHANGE DIRECTORY INTO THE CLONED REPO AND INSTALL DEPENDENCIES WITH npm OR yarn
+cd React-Site
+npm install
+  #or 
+yarn install
+
+# BUILD THE FINAL CODE INTO A FOLDER
+npm run build
+  #or 
+yarn build
+
+# COPY THE CONTENT OF THE FOLDER TO WHERE NGINX IS EXPECTING THE WEB CONTENT
+sudo cp -r build/* /usr/share/nginx/html
+
+# RESTART THE NGINX SERVICE
+sudo systemctl restart nginx
