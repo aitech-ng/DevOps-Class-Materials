@@ -2,88 +2,88 @@
 
 This guide outlines the steps to deploy a Next.js site on a CentOS 9 server using Nginx.
 
-## 1. Update System Packages
+1. Update System Packages
 
 ```bash
 sudo yum update -y
 ```
 
-## 2. Install Node.js
+2. Install Node.js
 
 ```bash
 curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
 sudo yum install -y nodejs 
 ```
 
-## 3. Install Yarn (Optional)
+3. Install Yarn (Optional)
 
 ```bash
 sudo npm install -g yarn
 ```
 
-## 4. Install Git
+4. Install Git
 
 ```bash
 sudo yum install -y git
 ```
 
-## 5. Clone the Next.js Project
+5. Clone the Next.js Project
 
 ```bash
 git clone https://github.com/GerromeSieger/Nextjs-Site.git
 cd Nextjs-Site
 ```
 
-## 6. Install Dependencies
+6. Install Dependencies
 
-### Using npm:
+Using npm:
 
 ```bash
 npm install
 ```
 
-### Or using Yarn:
+Or using Yarn:
 
 ```bash
 yarn install
 ```
 
-## 7. Build the Project
+7. Build the Project
 
-### Using npm:
+Using npm:
 
 ```bash
 npm run build
 ```
 
-### Or using Yarn:
+Or using Yarn:
 
 ```bash
 yarn build
 ```
 
-## 8. Start the Next.js Application
+8. Start the Next.js Application
 
-### Using npm:
+Using npm:
 
 ```bash
 npm run start
 ```
 
-### Or using Yarn:
+Or using Yarn:
 
 ```bash
 yarn start
 ```
 
-## 9. Install and Configure Nginx as a Reverse Proxy
+9. Install and Configure Nginx as a Reverse Proxy
 
 ```bash
 sudo yum install -y nginx
 sudo nano /etc/nginx/nginx.conf
 ```
 
-### Add the following server block inside the http block:
+Add the following server block inside the http block:
 
 ```nginx
 server {
@@ -101,6 +101,6 @@ server {
 }
 ```
 
-## 10. Verify Deployment
+10. Verify Deployment
 
-### Open a web browser and navigate to your server's IP address or domain name. Your Nextjs site should now be live and accessible.
+Open a web browser and navigate to your server's IP address or domain name. Your Nextjs site should now be live and accessible.

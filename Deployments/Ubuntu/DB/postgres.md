@@ -2,31 +2,31 @@
 
 This guide outlines the steps to deploy a PostgreSQL database on an Ubuntu 24 server.
 
-## 1. Update System Packages
+1. Update System Packages
 
 ```bash
 sudo apt update
 ```
 
-## 2. Install PostgreSQL
+2. Install PostgreSQL
 
 ```bash
 sudo apt install postgresql -y
 ```
 
-## 3. Verify PostgreSQL Service (Optional)
+3. Verify PostgreSQL Service (Optional)
 
 ```bash
 sudo systemctl status postgresql
 ```
 
-## 4. Access PostgreSQL Shell and Configure Database
+4. Access PostgreSQL Shell and Configure Database
 
 ```bash
 sudo -u postgres psql
 ```
 
-### Execute the following SQL commands:
+Execute the following SQL commands:
 
 ```sql
 -- Create the database
