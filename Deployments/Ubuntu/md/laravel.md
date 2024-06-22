@@ -11,7 +11,7 @@ sudo apt update
 ## 2. Add PHP Repository
 
 ```bash
-LC_ALL=C.UTF-8 sudo add-apt-repository ppa:ondrej/php
+LC_ALL=C.UTF-8 sudo add-apt-repository ppa:ondrej/php -y
 ```
 
 ## 3. Install PHP and Required Extensions
@@ -89,9 +89,9 @@ Description=Laravel API
 After=network.target
 
 [Service]
-User=www-data
+User=root
 Group=www-data
-WorkingDirectory=/path/to/RecipeApp-Laravel
+WorkingDirectory=/root/RecipeApp-Laravel
 ExecStart=/usr/bin/php artisan serve --host=0.0.0.0 --port=8080
 Restart=always
 
@@ -106,4 +106,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start laravel-api
 sudo systemctl enable laravel-api
+sudo systemctl status laravel-api
 ```

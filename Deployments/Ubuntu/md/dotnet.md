@@ -11,7 +11,7 @@ sudo apt update
 ## 2. Install .NET 7 SDK
 
 ```bash
-sudo add-apt-repository ppa:dotnet/backports
+sudo add-apt-repository ppa:dotnet/backports -y
 sudo apt install -y dotnet-sdk-7.0
 ```
 
@@ -70,18 +70,14 @@ sudo nano /etc/systemd/system/dotnet-api.service
 
 ```ini
 [Unit]
-Description=.NET Web API App running on Ubuntu
+Description=.NET Web API
+After=network.target
 
 [Service]
-WorkingDirectory=/path/to/RecipeApp-Dotnet
-ExecStart=/usr/bin/dotnet /path/to/RecipeApp-Dotnet/YourAppName.dll
-Restart=always
-RestartSec=10
-KillSignal=SIGINT
-SyslogIdentifier=dotnet-api
-User=www-data
-Environment=ASPNETCORE_ENVIRONMENT=Production
-Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+User=root
+Group=www-data
+WorkingDirectory=/root/RecipeApp-Dotnet
+ExecStart=dotnet run --urls http://0.0.0.0:5000
 
 [Install]
 WantedBy=multi-user.target
@@ -94,4 +90,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start dotnet-api
 sudo systemctl enable dotnet-api
+sudo systemctl status dotnet-api
 ```

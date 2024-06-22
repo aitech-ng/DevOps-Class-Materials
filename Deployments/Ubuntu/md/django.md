@@ -71,10 +71,10 @@ Description=Gunicorn daemon for Django API
 After=network.target
 
 [Service]
-User=ubuntu
+User=root
 Group=www-data
-WorkingDirectory=/path/to/RecipeApp-Django
-ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 RecipeApp.wsgi:application
+WorkingDirectory=/root/RecipeApp-Django
+ExecStart=/root/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 RecipeApp.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
@@ -86,4 +86,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
+sudo systemctl status gunicorn
 ```

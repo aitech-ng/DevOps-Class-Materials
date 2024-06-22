@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  labels:
+    app: appOne
+spec:
+  selector:
+    matchLabels:
+      app: appOne
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: appOne
+    spec:
+      containers:
+      - name: example-container
+        image: example/docker-image:tag
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

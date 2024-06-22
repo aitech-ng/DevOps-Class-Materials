@@ -88,8 +88,8 @@ Description=Spring Boot API
 After=syslog.target
 
 [Service]
-User=ubuntu
-ExecStart=/usr/bin/java -jar /path/to/your-application.jar
+User=root
+ExecStart=/usr/bin/java -jar /root/RecipeApp-Java/target/RecipeApp-0.0.1-SNAPSHOT.jar
 SuccessExitStatus=143
 
 [Install]
@@ -102,4 +102,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start springboot-api
 sudo systemctl enable springboot-api
+sudo systemctl status springboot-api
 ```

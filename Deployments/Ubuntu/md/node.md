@@ -11,8 +11,7 @@ sudo apt update
 ## 2. Install Node.js
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
-sudo bash nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 sudo apt install nodejs -y
 ```
 
@@ -87,11 +86,10 @@ Description=Node.js API
 After=network.target
 
 [Service]
-User=ubuntu
-WorkingDirectory=/path/to/RecipeApp-Node
-ExecStart=/usr/bin/npm start
+User=root
+WorkingDirectory=/root/RecipeApp-Node
+ExecStart=/usr/bin/yarn start
 Restart=always
-Environment=NODE_ENV=production
 
 [Install]
 WantedBy=multi-user.target
@@ -104,4 +102,5 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start nodejs-api
 sudo systemctl enable nodejs-api
+sudo systemctl status nodejs-api
 ```

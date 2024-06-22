@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: example-statefulset
+spec:
+   serviceName: example-service
+   replicas: 3
+   selector:
+    matchLabels:
+      app: db
+   template:
+    metadata:
+      labels:
+        app: db
+        selector: db
+    spec:
+      containers:
+        - name: example-container
+          image: example/docker-image:tag
+          ports: 
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: user          
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: password
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: database
+          volumeMounts:
+            - name: pvc
+              mountPath: /data/db
+   volumeClaimTemplates:
+      - metadata:
+          name: pvc
+        spec: 
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi    
