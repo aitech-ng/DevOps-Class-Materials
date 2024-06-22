@@ -1,0 +1,22 @@
+
+## Install sonarscanner: 
+
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
+
+unzip sonar-scanner-cli-6.0.0.4432-linux.zip
+
+sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
+
+
+
+### My token
+
+newToken: squ_e3a963fb9cbbb9fbc565da333aed8821bfcb8703
+
+### Run scan
+
+sonar-scanner \
+-Dsonar.projectKey=mytest\
+-Dsonar.sources=. \
+-Dsonar.host.url=http://localhost:9000 \
+-Dsonar.login=squ_e3a963fb9cbbb9fbc565da333aed8821bfcb8703

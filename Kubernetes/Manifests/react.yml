@@ -16,12 +16,13 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
+      name: react-pod
       labels:
         app: react
     spec:
       containers:
       - name: reactapp-container
-        image: gerrome/staticwebsite
+        image: gerrome/react-site
         imagePullPolicy: Always
         ports:
         - containerPort: 80
