@@ -29,3 +29,6 @@ sudo -u postgres psql
 
   # change password of an existing user (if applicable)
   ALTER USER postgres WITH PASSWORD '123456';
+
+  # to exit the Postgres shell
+  \q
