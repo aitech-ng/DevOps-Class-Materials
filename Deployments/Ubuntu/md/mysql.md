@@ -4,19 +4,27 @@ This guide outlines the steps to deploy a MySQL database on an Ubuntu 24 server.
 
 ## 1. Update System Packages
 
+```bash
 sudo apt update
+```
 
 ## 2. Install MySQL
 
+```bash
 sudo apt install mysql-server -y
+```
 
 ## 3. Verify MySQL Service (Optional)
 
+```bash
 sudo systemctl status mysql
+```
 
 ## 4. Access MySQL Shell and Configure Database
 
+```bash
 sudo mysql -u root -h localhost
+```
 
 ### Execute the following SQL commands:
 
@@ -44,17 +52,21 @@ EXIT;
 
 ### Edit MySQL configuration:
 
+```bash
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+```
 
 ### Change the bind address to:
 
-bind-address = 0.0.0.0
+```bind-address = 0.0.0.0```
 
 ### Save and exit the editor.
 
 ## Access MySQL shell again:
 
+```bash
 sudo mysql -u root -h localhost
+```
 
 ### Create a user for external access:
 
@@ -76,4 +88,6 @@ EXIT;
 
 ## 6. Restart MySQL Service
 
+```bash
 sudo systemctl restart mysql
+```

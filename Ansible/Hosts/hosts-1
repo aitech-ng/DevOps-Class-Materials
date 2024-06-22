@@ -1,0 +1,4 @@
+[slave1]
+<ip_address> ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
+[slave2]
+<ip_address> ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
