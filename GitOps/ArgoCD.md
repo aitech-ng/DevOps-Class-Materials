@@ -37,6 +37,7 @@ kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
 ```
 
 4. Access the ArgoCD UI:
+
 a. For kubectl installations, get the initial admin password
 
 ```bash
