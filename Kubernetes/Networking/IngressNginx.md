@@ -1,4 +1,4 @@
-# Setting up Ingress with NGINX in Kubernetes
+# Setting up Ingress with Nginx Ingress Controller in Kubernetes
 
 This guide explains how to set up an Ingress controller using NGINX in Kubernetes.
 

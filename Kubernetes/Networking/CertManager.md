@@ -47,7 +47,7 @@ kubectl apply -f letsencrypt-cluster-issuer.yml
 Apply the Ingress:
 
 ```bash
-kubectl apply -f ingress.yml
+kubectl apply -f ingress-ssl.yml
 ```
 
 5. Verify the certificate:

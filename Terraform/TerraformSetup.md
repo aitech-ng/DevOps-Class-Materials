@@ -1,6 +1,8 @@
 # Install terraform on linux, windows and mac os
 
-## Install the HarshiCorp GPG Key
+## Linux
+
+Install the HarshiCorp GPG Key
 
 ```bash
 wget -O- https://apt.releases.hashicorp.com/gpg | \
@@ -23,6 +25,6 @@ sudo apt update
 sudo apt install terraform -y
 ```
 
-# Windows (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+## Windows (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 
-# MAC (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+## MAC (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
