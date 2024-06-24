@@ -1,6 +1,6 @@
 # Install Azure cli on Linux, Windows or Mac
 
-## azure cli on linux (CLI)
+## Linux (CLI)
 
 ```bash
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -17,11 +17,15 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsof
 sudo apt update
 sudo apt install azure-cli -y 
 ```
-## azure cli on windows (GUI)
+
+## Windows (GUI)
 
 https://aka.ms/installazurecliwindowsx64
 
-## azure cli on mac (CLI)
 
+## Mac (CLI)
+
+```bash
 brew install
 brew update && brew install azure-cli
+```

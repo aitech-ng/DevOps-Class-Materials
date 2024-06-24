@@ -1,6 +1,6 @@
 # Install Google Cloud CLI (gcloud) on Linux, Windows or Mac
 
-## gcloud on Linux (CLI)
+## Linux (CLI)
 
 ```bash
 # Add the Cloud SDK distribution URI as a package source
@@ -15,12 +15,12 @@ sudo apt install google-cloud-cli -y
 
 ```
 
-## gcloud on Windows (GUI)
+## Windows (GUI)
 
 Download and run the Google Cloud SDK installer:
 https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
 
-## gcloud on macOS (CLI)
+## Mac (CLI)
 Using Homebrew
 
 ```bash

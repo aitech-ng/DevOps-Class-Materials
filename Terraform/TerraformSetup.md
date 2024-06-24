@@ -25,6 +25,14 @@ sudo apt update
 sudo apt install terraform -y
 ```
 
-## Windows (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+## Windows (GUI)
 
-## MAC (GUI): https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+1. Download the latest release: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+
+
+2. Add kubectl to your Environment Variable PATH.
+
+
+## Mac (GUI)
+
+1. Download the latest release: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
