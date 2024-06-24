@@ -17,11 +17,13 @@ services:
       retries: 10
     container_name: mysql-container
     image: mysql:8
+    env_file:
+      - .envdocker    
     environment:
-      MYSQL_DATABASE: recipe
-      MYSQL_USER: admin
-      MYSQL_PASS: 12345
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - 3306:3306
     volumes:
