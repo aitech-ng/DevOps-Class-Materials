@@ -98,13 +98,20 @@ php artisan migrate:fresh
 php artisan serve --host=0.0.0.0 --port=8080
 ```
 
-16. Verify Deployment
+16. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-port=8080/tcp
+sudo firewall-cmd --reload
+```
+
+17. Verify Deployment
 
 Open a web browser and navigate to http://publicip:8080/api/documentation to access the swagger documentation.
 
 ## Alternative Deployment Strategy (Using Systemd)
 
-17. Set Up as a Systemd Service
+18. Set Up as a Systemd Service
 
 Create a service file:
 
@@ -120,21 +127,21 @@ Description=Laravel API
 After=network.target
 
 [Service]
-User=apache
-Group=apache
-WorkingDirectory=/path/to/RecipeApp-Laravel
+User=root
+Group=root
+WorkingDirectory=/root/RecipeApp-Laravel
 ExecStart=/usr/bin/php artisan serve --host=0.0.0.0 --port=8080
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
-
 ```
 
-18. Reload Daemon, Start and Enable laravel-api Service
+19. Reload Daemon, Start and Enable laravel-api Service
 
 ``` bash
 sudo systemctl daemon-reload
 sudo systemctl start laravel-api
 sudo systemctl enable laravel-api
+sudo systemctl status laravel-api
 ```

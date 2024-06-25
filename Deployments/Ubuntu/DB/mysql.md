@@ -33,7 +33,7 @@ Execute the following SQL commands:
 CREATE DATABASE recipe;
 
 -- Create the user and set the password
-CREATE USER 'admin'@'localhost' IDENTIFIED BY '12345';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'passWORD727g1!';
 
 -- Grant all privileges to the user for the database
 GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'localhost';

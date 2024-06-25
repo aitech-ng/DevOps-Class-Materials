@@ -22,7 +22,7 @@ spec:
     spec:
       containers: 
       - name: java-container
-        image: gerrome/computex-django
+        image: gerrome/recipeapp-java
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

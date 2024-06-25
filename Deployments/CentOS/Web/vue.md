@@ -80,6 +80,14 @@ sudo cp -r dist/* /usr/share/nginx/html
 sudo systemctl restart nginx
 ```
 
-11. Verify Deployment
+11. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+```
+
+12. Verify Deployment
 
 Open a web browser and navigate to your server's IP address or domain name Your Vue.js site should now be live and accessible.

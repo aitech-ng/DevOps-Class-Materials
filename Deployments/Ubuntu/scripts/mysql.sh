@@ -8,7 +8,7 @@ sudo mysql -u root -h localhost <<EOF
 
 CREATE DATABASE recipe;
 
-CREATE USER 'admin'@'localhost' IDENTIFIED BY '12345';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'passWORD727g1!';
 
 GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'localhost';
 

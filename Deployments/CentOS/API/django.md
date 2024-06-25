@@ -50,13 +50,20 @@ python manage.py migrate
 gunicorn --bind 0.0.0.0:8000 RecipeApp.wsgi:application
 ```
 
-9. Verify Deployment
+9. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-port=8000/tcp
+sudo firewall-cmd --reload
+```
+
+10. Verify Deployment
 
 Open a web browser and navigate to http://publicip:8000/swagger to access the swagger documentation.
 
 ## Alternative Deployment Strategy (Using Systemd)
 
-10. Create Gunicorn Service File
+11. Create Gunicorn Service File
 
 ```bash
 sudo nano /etc/systemd/system/gunicorn.service
@@ -70,19 +77,20 @@ Description=Gunicorn daemon for Django API
 After=network.target
 
 [Service]
-User=centos
-Group=centos
-WorkingDirectory=/path/to/RecipeApp-Django
-ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 RecipeApp.wsgi:application
+User=root
+Group=root
+WorkingDirectory=/root/RecipeApp-Django
+Environment="PATH=/root/venv/bin"
+ExecStart=/root/venv/bin/python3 manage.py runserver 0.0.0.0:8000
 
 [Install]
 WantedBy=multi-user.target
-
 ```
-11. Reload Daemon, Start and Enable gunicorn Service
+12. Reload Daemon, Start and Enable gunicorn Service
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
+sudo systemctl status gunicorn
 ```

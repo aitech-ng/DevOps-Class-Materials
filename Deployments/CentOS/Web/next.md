@@ -62,18 +62,18 @@ Or using Yarn:
 yarn build
 ```
 
-8. Start the Next.js Application
+8. Start the Next.js Application In the background
 
 Using npm:
 
 ```bash
-npm run start
+npm run start &
 ```
 
 Or using Yarn:
 
 ```bash
-yarn start
+yarn start &
 ```
 
 9. Install and Configure Nginx as a Reverse Proxy
@@ -100,7 +100,14 @@ server {
     }
 }
 ```
+10. Open the Firewall
 
-10. Verify Deployment
+```bash
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+```
+
+11. Verify Deployment
 
 Open a web browser and navigate to your server's IP address or domain name. Your Nextjs site should now be live and accessible.

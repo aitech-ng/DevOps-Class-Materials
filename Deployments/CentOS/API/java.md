@@ -8,48 +8,72 @@ This guide outlines the steps to deploy a Java/Spring Boot REST API on a CentOS 
 sudo yum update -y
 ```
 
-2. Install OpenJDK, Git, and Maven
+2. Install OpenJDK, Git, tar and wget
 
 ``` bash
-sudo yum install java-17-openjdk-devel git maven -y
+sudo yum install java-17-openjdk-devel git wget tar -y
 ```
 
-3. Clone the Project
+3. Install Maven
+
+```bash
+wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+sudo tar xzf apache-maven-3.9.6-bin.tar.gz -C /opt
+sudo nano /etc/profile.d/maven.sh
+```
+pash this:
+```
+export M2_HOME=/opt/apache-maven-3.9.6
+export PATH=${M2_HOME}/bin:${PATH}
+```
+```bash
+sudo chmod +x /etc/profile.d/maven.sh
+source /etc/profile.d/maven.sh
+```
+
+4. Clone the Project
 
 ``` bash
 git clone https://github.com/GerromeSieger/RecipeApp-Java.git
 cd RecipeApp-Java
 ```
 
-4. Build the Project
+5. Build the Project
 
 ``` bash
 mvn clean install
 ```
 
-5. Configure Database
+6. Configure Database
 
 Ensure your database connection is properly configured in application.properties or application.yml
 
-6. Run the Application
+7. Run the Application
 
 ``` bash
 mvn spring-boot:run
 ```
 
-7. Verify Deployment
+8. Verify Deployment
 
 Open a web browser and navigate to http://publicip:8080/swagger to access the swagger documentation.
 
+9. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-port=8080/tcp
+sudo firewall-cmd --reload
+```
+
 ## Alternative Deployment Strategy (Using Systemd)
 
-8. Create JAR file
+10. Create JAR file
 
 ``` bash
 mvn package
 ```
 
-9. Create Spring Boot Service File
+11. Create Spring Boot Service File
 
 ``` bash
 sudo nano /etc/systemd/system/springboot-api.service
@@ -63,8 +87,8 @@ Description=Spring Boot API
 After=syslog.target
 
 [Service]
-User=centos
-ExecStart=/usr/bin/java -jar /path/to/your-application.jar
+User=root
+ExecStart=/usr/bin/java -jar /root/RecipeApp-Java/target/RecipeApp-0.0.1-SNAPSHOT.jar
 SuccessExitStatus=143
 
 [Install]
@@ -72,10 +96,11 @@ WantedBy=multi-user.target
 
 ```
 
-10. Reload Daemon, Start and Enable springboot-api Service
+12. Reload Daemon, Start and Enable springboot-api Service
 
 ``` bash
 sudo systemctl daemon-reload
 sudo systemctl start springboot-api
 sudo systemctl enable springboot-api
+sudo systemctl status springboot-api
 ```

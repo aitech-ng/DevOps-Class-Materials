@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: react
-  replicas: 10
+  replicas: 5
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,13 +17,12 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
-      name: react-pod
       labels:
         app: react
     spec:
       containers:
       - name: reactapp-container
-        image: gerrome/react-site
+        image: gerrome/computext-react
         imagePullPolicy: Always
         ports:
         - containerPort: 80

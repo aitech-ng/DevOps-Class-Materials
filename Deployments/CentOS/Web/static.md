@@ -38,11 +38,19 @@ sudo cp -r Static-Site/* /usr/share/nginx/html
 sudo systemctl restart nginx
 ```
 
-7. Verify Deployment
+7. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+```
+
+8. Verify Deployment
 
 Open a web browser and navigate to your server's IP address or domain name. Your static website should now be live and accessible.
 
-8. Additional Configuration (Optional)
+9. Additional Configuration (Optional)
 
 To view or modify Nginx's configuration:
 

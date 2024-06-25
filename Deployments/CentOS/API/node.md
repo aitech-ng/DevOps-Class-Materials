@@ -64,13 +64,20 @@ Or using Yarn:
 yarn start
 ```
 
-8. Verify Deployment
+8. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-port=5000/tcp
+sudo firewall-cmd --reload
+```
+
+9. Verify Deployment
 
 Open a web browser and navigate to http://publicip:5000/docs to access the swagger documentation.
 
 ## Alternative Deployment Strategy (Using Systemd)
 
-9. Set Up as a Systemd Service
+10. Set Up as a Systemd Service
 
 Create a service file:
 
@@ -86,20 +93,19 @@ Description=Node.js API
 After=network.target
 
 [Service]
-User=centos
-WorkingDirectory=/path/to/RecipeApp-Node
+User=root
+WorkingDirectory=/root/RecipeApp-Node
 ExecStart=/usr/bin/npm start
 Restart=always
-Environment=NODE_ENV=production
 
 [Install]
 WantedBy=multi-user.target
-
 ```
-10. Reload Daemon, Start and Enable nodejs-api Service
+11. Reload Daemon, Start and Enable nodejs-api Service
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl start nodejs-api
 sudo systemctl enable nodejs-api
+sudo systemctl status nodejs-api
 ```

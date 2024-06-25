@@ -22,7 +22,7 @@ spec:
     spec:
       containers: 
       - name: dotnet-container
-        image: gerrome/computex-django
+        image: gerrome/recipeapp-dotnet
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

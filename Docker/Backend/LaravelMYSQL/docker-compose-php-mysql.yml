@@ -18,12 +18,7 @@ services:
     container_name: mysql-container
     image: mysql:8
     env_file:
-      - .envdocker    
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASS=${MYSQL_PASS}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - .envdocker 
     ports:
       - 3306:3306
     volumes:

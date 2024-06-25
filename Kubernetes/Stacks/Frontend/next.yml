@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-deployment
+  name: next-deployment
   namespace: default
   labels:
-    app: react
+    app: next
 spec:
   selector:
     matchLabels:
-      app: react
+      app: next
   replicas: 4
   strategy:
     type: RollingUpdate
@@ -18,27 +18,27 @@ spec:
   template:
     metadata:
       labels:
-        app: react
+        app: next
     spec:
       containers:
-      - name: reactapp-container
-        image: gerrome/react-site
+      - name: nextapp-container
+        image: gerrome/next-site
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: react-service
+  name: next-service
   namespace: default
   labels:
-    app: react
+    app: next
 spec:
   type: ClusterIP
   selector:
-    app: react
+    app: next
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 3000

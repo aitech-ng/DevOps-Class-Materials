@@ -12,23 +12,30 @@ sudo yum update -y
 
 ```bash
 sudo yum install -y https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
-sudo dnf install -y mysql-community-server 
+sudo yum update -y
+sudo yum install -y mysql-community-server 
 ```
 
-3. Start and Enable MySQL Service
+3. Grab Temporary Root Password
+
+```bash
+sudo grep 'temporary password' /var/log/mysqld.log
+```
+
+4. Start and Enable MySQL Service
 
 ```bash
 sudo systemctl start mysqld.service
 sudo systemctl enable mysqld
 ```
 
-4. Secure MySQL Installation
+5. Secure MySQL Installation
 
 ```bash
 sudo mysql_secure_installation
 ```
 
-5. Access MySQL Shell and Configure Database
+6. Access MySQL Shell and Configure Database
 
 ```bash
 sudo mysql -u root -p
@@ -41,7 +48,7 @@ Execute the following SQL commands:
 CREATE DATABASE recipe;
 
 -- Create the user and set the password
-CREATE USER 'admin'@'localhost' IDENTIFIED BY '12345';
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'passWORD727g1!';
 
 -- Grant all privileges to the user for the database
 GRANT ALL PRIVILEGES ON recipe.* TO 'admin'@'localhost';
@@ -56,8 +63,14 @@ EXIT;
 
 Replace <publicIP> with your server's public IP address.
 
-6. Restart MySQL Service
+7. Restart MySQL Service
 
 ```bash
-sudo systemctl restart mysql
+sudo systemctl restart mysqld
+```
+
+8. You can also change the root password with this SQL command
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPassword';
 ```

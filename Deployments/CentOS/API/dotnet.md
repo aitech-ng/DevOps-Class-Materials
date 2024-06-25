@@ -51,13 +51,20 @@ dotnet ef database update
 dotnet run --urls http://0.0.0.0:5000
 ```
 
-9. Verify Deployment
+10. Open the Firewall
+
+```bash
+sudo firewall-cmd --permanent --add-port=5000/tcp
+sudo firewall-cmd --reload
+```
+
+11. Verify Deployment
 
 Open a web browser and navigate to http://publicip:5000/swagger to access the swagger documentation.
 
 ## Alternative Deployment Strategy (Using Systemd)
 
-10. Set Up as a Systemd Service
+12. Set Up as a Systemd Service
 
 Create a service file:
 
@@ -69,27 +76,24 @@ Add the following content (adjust paths as necessary):
 
 ```ini
 [Unit]
-Description=.NET Web API App running on Centos
+Description=.NET Web API
+After=network.target
 
 [Service]
-WorkingDirectory=/path/to/RecipeApp-Dotnet
-ExecStart=/usr/bin/dotnet /path/to/RecipeApp-Dotnet/YourAppName.dll
-Restart=always
-RestartSec=10
-KillSignal=SIGINT
-SyslogIdentifier=dotnet-api
-User=centos
-Environment=ASPNETCORE_ENVIRONMENT=Production
-Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+User=root
+Group=root
+WorkingDirectory=/root/RecipeApp-Dotnet
+ExecStart=dotnet run --urls http://0.0.0.0:5000
 
 [Install]
 WantedBy=multi-user.target
-
 ```
-11. Reload Daemon, Start and Enable dotnet-api Service
+
+13. Reload Daemon, Start and Enable dotnet-api Service
 
 ``` bash
 sudo systemctl daemon-reload
 sudo systemctl start dotnet-api
 sudo systemctl enable dotnet-api
+sudo systemctl status dotnet-api
 ```

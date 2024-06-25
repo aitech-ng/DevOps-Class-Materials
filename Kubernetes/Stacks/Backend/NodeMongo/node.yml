@@ -22,7 +22,7 @@ spec:
     spec:
       containers: 
       - name: node-container
-        image: gerrome/computex-django
+        image: gerrome/recipeapp-node
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

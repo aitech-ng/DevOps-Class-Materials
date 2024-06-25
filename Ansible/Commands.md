@@ -32,6 +32,12 @@ ansible webservers -m service -a "name=nginx state=restarted" --become
 ansible all -m copy -a "src=/local/path/file.txt dest=/remote/path/file.txt"
 ```
 
+6. Run a command on a remote host:
+
+```bash
+ansible all -m shell -a "docker ps"
+```
+
 ## Playbook Commands
 
 1. Run a playbook:

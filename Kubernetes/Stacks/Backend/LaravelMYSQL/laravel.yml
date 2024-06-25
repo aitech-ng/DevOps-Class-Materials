@@ -22,7 +22,7 @@ spec:
     spec:
       containers: 
       - name: laravel-container
-        image: gerrome/computex-django
+        image: gerrome/recipeapp-laravel
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

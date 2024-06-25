@@ -67,10 +67,10 @@ Restart services:
 docker-compose restart
 ```
 
-Scale a service: (Flags: --scale: Scale services to a specific number of instances)
+Scale a service: (Flags: --scale: Scale services to a specific number of instances. Note: if you will do this you can't map the ports of the service to a port on the host and you can't specify a container name for the service) 
 
 ```bash
-docker-compose up -d --scale service_name=3
+docker-compose up -d --scale backend=3
 ```
 
 Run a one-off command on a service: (Flags: --rm: Remove container after run)
