@@ -17,7 +17,23 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 ```
-2. Create a Working Directory for SonarQube and create the docker-compose file:
+
+2. Set vm.max_map_count 
+
+```bash
+sudo nano /etc/sysctl.conf
+```
+Paste:
+```
+vm.max_map_count=262144
+```
+
+```bash
+sudo sysctl -p
+```
+
+
+3. Create a Working Directory for SonarQube and create the docker-compose file:
 
 ```bash
 mkdir Sonar
@@ -70,14 +86,15 @@ volumes:
   postgresql_data:
 ```
 
-3. Run the docker-compose:
+4. Run the docker-compose:
 
 ```bash
 docker-compose up -d
 ```
 
+## Open the dashboad at http://ip-address:9000 and login as username: admin, password: admin, create a project and a token
 
-4. Install sonarscanner: 
+5. Install sonarscanner: 
 
 ```bash
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
@@ -85,7 +102,7 @@ unzip sonar-scanner-cli-6.0.0.4432-linux.zip
 sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
 ```
 
-5. Run scan:
+6. Run scan:
 
 ```bash
 sonar-scanner \

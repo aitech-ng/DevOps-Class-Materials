@@ -3,9 +3,6 @@ pipeline {
   environment {
     IP_CRED = credentials('server-ip') 
   }  
-  triggers {
-    githubPush()
-  }
   stages {
     stage ('Deploy') {
         steps{

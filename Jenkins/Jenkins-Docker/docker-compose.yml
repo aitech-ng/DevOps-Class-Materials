@@ -13,13 +13,5 @@ services:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
 
-  ubuntu-slave:
-    build:
-      context: .
-    container_name: ubuntu-slave
-    volumes:
-      - jenkins-slave-1-data:/var/lib/docker 
-
 volumes:
   jenkins_home:
-  jenkins-slave-1-data:
