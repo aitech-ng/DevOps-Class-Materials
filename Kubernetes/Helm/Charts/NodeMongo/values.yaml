@@ -1,0 +1,11 @@
+namespace: node-mongo
+
+mongodb:
+  username: admin
+  password: '"12345"'  # Note the double quotes inside single quotes
+  replicas: 1
+
+node:
+  image: gerrome/recipeapp-node
+  tag: latest
+  replicas: 3

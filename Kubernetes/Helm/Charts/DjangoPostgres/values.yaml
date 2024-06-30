@@ -1,0 +1,12 @@
+namespace: django-postgres
+
+postgresql:
+  username: admin
+  password: '"12345"'  # Note the double quotes inside single quotes
+  database: recipe
+  replicas: 2
+
+django:
+  image: gerrome/recipeapp-django
+  tag: latest
+  replicas: 3

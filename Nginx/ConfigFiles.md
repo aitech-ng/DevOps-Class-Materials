@@ -148,3 +148,33 @@ server {
 
 }
 ```
+
+- An Nginx reverse proxy with ssl for websockets also:
+
+```nginx
+server {
+    server_name www.app.com app.com;
+
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # WebSocket-specific timeout settings
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+    }
+
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/app.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+```

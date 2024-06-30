@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: django
+spec:
+  selector:
+    matchLabels:
+      app: django
+  replicas: {{ .Values.django.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      initContainers:
+      - name: check-db-ready
+        image: postgres:13
+        command: ['sh', '-c', 
+          'until pg_isready -h postgres-service -p 5432; 
+          do echo waiting for database; sleep 2; done;']
+      containers: 
+      - name: django-container
+        image: {{ .Values.django.image }}:{{ .Values.django.tag }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          value: postgres://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@postgres:5432/{{ .Values.postgresql.database }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: django
+spec:
+  type: ClusterIP
+  selector:
+    app: django
+  ports:
+    - protocol: TCP
+      name: web
+      port: 80
+      targetPort: 8000

@@ -1,0 +1,11 @@
+namespace: laravel-mysql
+
+mysql:
+  password: root  # Note the double quotes inside single quotes
+  database: recipe
+  replicas: 1
+
+laravel:
+  image: gerrome/recipeapp-laravel
+  tag: latest
+  replicas: 3

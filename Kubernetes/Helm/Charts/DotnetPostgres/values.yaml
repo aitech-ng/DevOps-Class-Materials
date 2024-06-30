@@ -1,0 +1,12 @@
+namespace: dotnet-postgres
+
+postgresql:
+  username: admin
+  password: '"12345"'  # Note the double quotes inside single quotes
+  database: recipe
+  replicas: 1
+
+dotnet:
+  image: gerrome/recipeapp-dotnet
+  tag: latest
+  replicas: 3

@@ -1,0 +1,11 @@
+namespace: java-mysql
+
+mysql:
+  password: root  # Note the double quotes inside single quotes
+  database: recipe
+  replicas: 2
+
+java:
+  image: gerrome/recipeapp-java
+  tag: latest
+  replicas: 3

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: dotnet
+spec:
+  selector:
+    matchLabels:
+      app: dotnet
+  replicas: {{ .Values.dotnet.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: dotnet
+    spec:
+      initContainers:
+      - name: check-postgres-ready
+        image: postgres:15-alpine
+        command: ['sh', '-c', 
+          'until pg_isready -h postgres-service -p 5432; 
+          do echo waiting for postgres; sleep 2; done;']    
+      containers: 
+      - name: dotnet-container
+        image: {{ .Values.dotnet.image }}:{{ .Values.dotnet.tag }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: dotnet
+spec:
+  type: ClusterIP
+  selector:
+    app: dotnet
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
