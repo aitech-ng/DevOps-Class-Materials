@@ -55,10 +55,18 @@ pipeline {
                         git config user.name "Jenkins"
                         git config user.email "jenkins@example.com"
                         git pull origin main
-                        sed -i "s|image:.*|image: ${DOCKER_IMAGE}:${DOCKER_TAG}|" k8s/app.yml
+                        awk -v image="${{ secrets.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}" '
+                        /image:/ {$0 = "        image: " image}
+                        {print}
+                        ' k8s/app.yml > temp.yml && mv temp.yml k8s/app.yml
+                        if [[ -n $(git status -s) ]]; then
+                        echo "Changes detected. Committing and pushing..."
                         git add .
-                        git commit -m "Update image tag to ${DOCKER_TAG}" || echo "No changes to commit"
-                        git push origin main
+                        git commit -m "Update image tag to ${{ env.DOCKER_TAG }}"
+                        git push
+                        else
+                        echo "No changes detected in Kubernetes manifests."
+                        fi
                     '''
                 }
             }
