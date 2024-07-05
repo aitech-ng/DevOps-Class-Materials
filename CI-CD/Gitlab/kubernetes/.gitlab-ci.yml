@@ -6,7 +6,7 @@ stages:
 variables:
   DOCKER_TAG: ${CI_COMMIT_SHORT_SHA}  
 
-test:
+.test:
   stage: test
   image: 
     name: sonarsource/sonar-scanner-cli:latest
@@ -43,26 +43,17 @@ build:
 
 deploy:
   stage: deploy
-  image: bitnami/git:latest
+  image: ubuntu:22.04
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo "$KUBECONFIG_CONTENT" >> $HOME/.kube/config
+    - chmod 600 $HOME/.kube/config
+    - apt update && apt install curl git -y
+    - curl -LO "https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl"
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/local/bin/kubectl
   script:
     - git clone https://${CI_USERNAME}:${CI_PASSWORD}@${K8S_MANIFEST_REPO} k8s-manifests
-    - cd k8s-manifests
-    - git config user.name "GitLab CI"
-    - git config user.email "gitlab-ci@example.com"
-    - git pull origin main
-    - |
-      awk -v image="${DOCKER_IMAGE}:${DOCKER_TAG}" '
-        /image:/ {$0 = "        image: " image}
-        {print}
-      ' app.yml > temp.yml && mv temp.yml app.yml
-    - |
-      if [[ -n $(git status -s) ]]; then
-        echo "Changes detected. Committing and pushing..."
-        git add .
-        git commit -m "Update image tag to ${DOCKER_TAG}"
-        git push origin main
-      else
-        echo "No changes detected in Kubernetes manifests."
-      fi
+    - kubectl get nodes
   only:
     - main

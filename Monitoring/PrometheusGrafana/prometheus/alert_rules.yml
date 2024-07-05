@@ -1,0 +1,50 @@
+groups:
+- name: alert_rules
+  rules:
+  - alert: HighStorageUsage
+    expr: 100 - ((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes) > 70
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High storage usage on {{ $labels.instance }}"
+      description: "Storage usage is above 70% on {{ $labels.instance }} (current value: {{ $value }}%)"
+
+  - alert: ContainerDown
+    expr: |
+      absent(container_last_seen{name=~".+"})
+      or
+      (time() - container_last_seen{name=~".+"} > 60)
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Container {{ $labels.name }} is down on {{ $labels.instance }}"
+      description: "Container {{ $labels.name }} has been down for more than 1 minute"
+
+  - alert: HighSystemLoad
+    expr: node_load1 / on(instance) count(node_cpu_seconds_total{mode="idle"}) by (instance) > 0.7
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High system load on {{ $labels.instance }}"
+      description: "System load is above 70% on {{ $labels.instance }} (current value: {{ $value }})"
+
+  - alert: HighNodeMemoryUsage
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 70
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High memory usage on {{ $labels.instance }}"
+      description: "Node memory usage is above 70% on {{ $labels.instance }} (current value: {{ $value }}%)"
+
+  - alert: HighContainerMemoryUsage
+    expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) * 100 > 70
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High container memory usage on {{ $labels.instance }}"
+      description: "Container {{ $labels.name }} memory usage is above 70% (current value: {{ $value }}%)"

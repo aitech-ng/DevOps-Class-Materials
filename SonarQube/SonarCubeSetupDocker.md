@@ -97,6 +97,7 @@ docker-compose up -d
 5. Install sonarscanner: 
 
 ```bash
+sudo apt install unzip -y
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.0.0.4432-linux.zip
 unzip sonar-scanner-cli-6.0.0.4432-linux.zip
 sudo mv sonar-scanner-6.0.0.4432-linux /opt/sonar-scanner
@@ -109,5 +110,5 @@ sonar-scanner \
 -Dsonar.projectKey=mytest\
 -Dsonar.sources=. \
 -Dsonar.host.url=http://localhost:9000 \
--Dsonar.login=squ_e3a963fb9cbbb9fbc565da333aed8821bfcb8703
+-Dsonar.login=sqa_68256ab72a9ed9b43c80965a985b6b61e672146e
 ```

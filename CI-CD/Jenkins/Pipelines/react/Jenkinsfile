@@ -1,53 +1,80 @@
 pipeline {
     agent any
-    
-    environment {
-        HOST_IP = credentials('host-ip') 
-    }
-
     stages {
         stage('Build') {
             agent { 
-                docker { image 'node:18-alpine' }  
-              }                
+                docker { 
+                    image 'node:18-alpine'
+                    args '-u root'
+                    reuseNode true    
+                }  
+            }                
             steps {
                 sh 'npm install'
                 sh 'npm run build'
                 stash includes: 'build/**', name: 'build-artifact'
             }
+            post {
+                always {
+                    sh 'docker rmi node:18-alpine || true'
+                }
+            }               
         }
 
         stage('Test') {
+            agent { 
+                docker { 
+                    image 'ubuntu:22.04' 
+                    args '-u root'
+                    reuseNode true
+                }  
+            }            
             steps {
-                unstash 'build-artifact'
                 sh 'chmod +x ./test.sh'
                 sh './test.sh'
             }
+            post {
+                always {
+                    sh 'docker rmi ubuntu:22.04 || true'
+                }
+            }                 
         }
 
         stage ('Deploy') {
             agent { 
-                docker { image 'ubuntu:22.04' }  
-              }      
+                docker { 
+                    image 'ubuntu:22.04' 
+                    args '-u root'
+                    reuseNode true
+                }  
+            }      
             steps{
-                unstash 'build-artifact'
-                withCredentials([sshUserPrivateKey(credentialsId: 'remote-server-cred', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'REMOTE_USER')]) {
+                withCredentials([
+                    sshUserPrivateKey(credentialsId: 'remote-server-cred', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'REMOTE_USER'),
+                    string(credentialsId: 'host-ip', variable: 'HOST_IP')
+                ]) {
                 sh """
                 apt update && apt install openssh-client -y
                 scp -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} -r ./build ${REMOTE_USER}@${HOST_IP}:/root
                 ssh -o StrictHostKeyChecking=no -i ${SSH_PRIVATE_KEY} ${REMOTE_USER}@${HOST_IP} '
-                sudo cp -r build/* /var/www/html
-                sudo systemctl restart nginx
+                cp -r build/* /var/www/html
+                systemctl restart nginx
               '
                 """
                 }
             }
+            post {
+                always {
+                    sh 'docker rmi ubuntu:22.04 || true'
+                }
+            }                             
         }
     }
 
     post {
         always {
             cleanWs()
+            sh 'docker system prune -af || true'
         }
     }
 }

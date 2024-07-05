@@ -72,4 +72,4 @@ jobs:
       - name: Verify kubectl configuration
         run: |
           git clone ${{ secrets.KUBE_MANIFEST_REPO }}
-          kubectl apply -f deployment.yml
+          kubectl get nodes
