@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: AlertmanagerConfig
+metadata:
+  name: main-rules
+  namespace: monitoring
+spec:
+  route:
+    receiver: 'slack'
+  receivers:
+  - name: 'slack'
+    slackConfigs:
+    - channel: '#alerts'
+      apiURL: 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'

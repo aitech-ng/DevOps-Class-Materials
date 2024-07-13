@@ -178,3 +178,35 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 }
 ```
+
+- An Nginx configuration that allows upload of large files
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name  www.sanitractdev1.com sanitractdev1.com;
+
+    ssl_certificate /etc/nginx/cert/san.crt;
+    ssl_certificate_key /etc/nginx/cert/san.key;
+
+    # Increase max upload size (adjust the value as needed, e.g., 100M for 100 megabytes)
+    client_max_body_size 100M;
+
+    # Increase timeouts for larger uploads
+    client_body_timeout 300s;
+    client_header_timeout 300s;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Add these lines for handling larger uploads
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 300s;
+        proxy_send_timeout 300s;        
+    }
+}
+```

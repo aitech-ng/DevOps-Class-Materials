@@ -107,3 +107,37 @@ sudo chown postgres:postgres /var/lib/postgresql/postgres_backup.py
 ```bash
 sudo -u postgres python3 /var/lib/postgresql/postgres_backup.py
 ```
+
+### Restore a backup
+
+- Extract the compressed backup sql file:
+
+- Create the database:
+
+```bash
+sudo -u postgres psql
+```
+
+```sql
+-- Create the database
+CREATE DATABASE database;
+
+-- Create the user and set the password
+CREATE USER admin WITH ENCRYPTED PASSWORD '12345';
+
+-- Change the database owner to admin
+ALTER DATABASE database OWNER TO admin;
+
+-- Grant all privileges to the user for the database
+GRANT ALL PRIVILEGES ON DATABASE database TO admin;
+
+-- Exit PostgreSQL shell
+\q
+
+```
+
+- Run the sql script on the database:
+
+```bash
+sudo -u postgres psql database < backup.sql
+```
