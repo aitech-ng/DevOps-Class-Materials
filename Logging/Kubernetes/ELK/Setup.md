@@ -10,64 +10,31 @@ This guide provides instructions for setting up the ELK (Elasticsearch, Logstash
 
 ## Setup
 
-1. Add the Elastic Helm repository:
+1. Install Elasticsearch:
 
 ```bash
-helm repo add elastic https://helm.elastic.co
-helm repo update
+helm install elasticsearch elasticsearch/
 ```
 
-2. Create a namespace for the ELK stack:
+2. Install Kibana:
 
 ```bash
-kubectl create namespace elk
+helm install kibana kibana/
 ```
 
-3. Install Elasticsearch:
+3. Install Logstash:
 
 ```bash
-helm install elasticsearch elastic/elasticsearch \
-  --namespace elk \
-  --set replicas=3 \
-  --set minimumMasterNodes=2
+helm install logstash logstash/
 ```
 
-4. Install Kibana:
+4. Install Filebeat:
 
 ```bash
-helm install kibana elastic/kibana \
-  --namespace elk \
-  --set elasticsearchHosts=http://elasticsearch-master:9200
+helm install filebeat filebeat/
 ```
 
-5. Install Logstash:
-
-```bash
-helm install logstash elastic/logstash \
-  --namespace elk \
-  --set logstashPipeline.logstash.conf="input { beats { port => 5044 } } output { elasticsearch { hosts => ['elasticsearch-master:9200'] index => '%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}' } }"
-```
-
-6. Install Filebeat:
-
-```bash
-helm install filebeat elastic/filebeat \
-  --namespace elk \
-  --set filebeatConfig.filebeat.yml="filebeat.inputs:
-- type: container
-  paths:
-    - /var/log/containers/*.log
-processors:
-- add_kubernetes_metadata:
-    host: ${NODE_NAME}
-    matchers:
-    - logs_path:
-        logs_path: '/var/log/containers/'
-output.logstash:
-  hosts: ['logstash-logstash:5044']"
-```
-
-7. Accessing Kibana, Port-forward the Kibana service:
+5. Accessing Kibana, Port-forward the Kibana service:
 
 ```bash
 kubectl port-forward -n elk svc/kibana-kibana 5601:5601
@@ -76,13 +43,13 @@ kubectl port-forward -n elk svc/kibana-kibana 5601:5601
 Access Kibana at http://localhost:5601
 
 
-8. Verifying the Setup, Check the status of the pods:
+6. Verifying the Setup, Check the status of the pods:
 
 ```bash
 kubectl get pods -n elk
 ```
 
-9. View logs from Filebeat:
+7. View logs from Filebeat:
 
 ```bash
 kubectl logs -n elk -l app=filebeat-filebeat -f
