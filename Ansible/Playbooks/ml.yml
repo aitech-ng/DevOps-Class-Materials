@@ -1,22 +1,22 @@
----
 - name: Setup Monitoring and Logging Solution (Prometheus-Grafana-Loki)
-  hosts : [slave]
-  become: True
+  hosts:
+    - slave
+  become: true
   vars:
-    app_dir: "/home/ubuntu/appdir"
-    monitoring_dir: "/home/ubuntu/Monitoring-Logging"
+    app_dir: /home/ubuntu/appdir
+    monitoring_dir: /home/ubuntu/Monitoring-Logging
 
   tasks:
 
     - name: Clone monitoring repo
       git:
         repo: https://github.com/GerromeSieger/Monitoring-Logging.git
-        dest: "{{ monitoring_dir }}"
-        force: yes
+        dest: '{{ monitoring_dir }}'
+        force: 'yes'
 
     - name: Deploy docker-compose for monitoring
       community.docker.docker_compose:
-        project_src: "{{ monitoring_dir }}"
+        project_src: '{{ monitoring_dir }}'
         state: present
 
     - name: Check if loki plugin is installed
@@ -25,8 +25,9 @@
       changed_when: false
 
     - name: Install loki plugin
-      command: docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
-      when: "'loki' not in plugin_list.stdout"
+      command: docker plugin install grafana/loki-docker-driver:latest --alias loki
+        --grant-all-permissions
+      when: '''loki'' not in plugin_list.stdout'
 
     - name: Check if daemon.json exists
       stat:
@@ -36,7 +37,7 @@
     - name: Configure daemon.json
       blockinfile:
         path: /etc/docker/daemon.json
-        create: yes
+        create: 'yes'
         block: |
           {
               "log-driver": "loki",
@@ -52,19 +53,19 @@
       service:
         name: docker
         state: restarted
-        enabled: yes
+        enabled: 'yes'
       when: daemon_json_configured.changed
 
     - name: Deploy application
       community.docker.docker_compose:
-        project_src: "{{ app_dir }}"
+        project_src: '{{ app_dir }}'
         state: present
         recreate: always
       when: daemon_json_configured.changed
 
     - name: Redeploy monitoring
       community.docker.docker_compose:
-        project_src: "{{ monitoring_dir }}"
+        project_src: '{{ monitoring_dir }}'
         state: present
         recreate: always
       when: daemon_json_configured.changed
