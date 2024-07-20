@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  server:
+    image: jetbrains/teamcity-server
+    container_name: teamcity-server
+    privileged: true
+    ports:
+      - 8111:8111
+    volumes:
+      - data_dir:/data/teamcity_server/datadir
+      - logs_dir:/opt/teamcity/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  agent:
+    image: jetbrains/teamcity-agent
+    container_name: teamcity-agent
+    privileged: true
+    user: root
+    volumes:
+      - /opt/buildagent/work:/opt/buildagent/work
+      - /opt/buildagent/temp:/opt/buildagent/temp
+      - /opt/buildagent/tools:/opt/buildagent/tools
+      - /opt/buildagent/plugins:/opt/buildagent/plugins
+      - /opt/buildagent/system:/opt/buildagent/system
+      - agent_docker:/var/lib/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - SERVER_URL=http://server:8111
+      - DOCKER_IN_DOCKER=start
+    depends_on:
+      - server
+
+volumes:
+  data_dir:
+  logs_dir:
+  agent_dir:
+  agent_docker:

@@ -280,3 +280,9 @@ ifconfig
 ```bash
 sudo fuser -k 8080/tcp
 ```
+
+- Check if a port is being used
+
+```bash
+fuser 8080/tcp
+```

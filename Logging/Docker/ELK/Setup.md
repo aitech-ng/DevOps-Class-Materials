@@ -46,4 +46,4 @@ nano filebeat/filebeat.yml
 docker-compose up -d
 ```
 
-7. Open up Kibana's ui on http://<ipaddress>:5601
+7. Open up Kibana's ui on http://ipaddress:5601 > go to stack management > go to index patterns > go to create index patterns and select the index and timestamp > go to discover and filter logs

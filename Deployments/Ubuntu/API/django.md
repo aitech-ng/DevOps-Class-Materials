@@ -8,7 +8,7 @@ This guide outlines the steps to deploy a Python/Django REST API on an Ubuntu 24
 sudo apt update
 ```
 
-2. Install Python and Virtual Environment Tools
+2. Install Pip and Python Virtual Environment Package
 
 ```bash
 sudo apt install python3-pip python3-virtualenv -y

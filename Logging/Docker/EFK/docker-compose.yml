@@ -1,37 +1,54 @@
-version: '3.8'
+version: '3.9'
+
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: elasticsearch
     environment:
       - discovery.type=single-node
     ports:
       - "9200:9200"
-      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
     healthcheck:
       test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 5       
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
+        tag: docker.{{.Name}}  
 
   fluentd:
-    image: fluent/fluentd-kubernetes-daemonset:v1.4.2-debian-elasticsearch-1.1
-#    build: ./fluentd
+    build: ./fluentd
+    container_name: fluentd
     volumes:
-      - ./fluentd/conf/:/fluentd/etc/
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+      - /var/lib/docker/containers:/fluentd/log/containers
     ports:
       - "24224:24224"
       - "24224:24224/udp"
     depends_on:
       elasticsearch:
-        condition: service_healthy
+        condition: service_healthy      
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.0
+    container_name: kibana
     ports:
       - "5601:5601"
     depends_on:
       elasticsearch:
-        condition: service_healthy
-    environment:
-      - 'ELASTICSEARCH_HOSTS=http://elasticsearch:9200'
+        condition: service_healthy  
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        fluentd-async-connect: "true"
+        tag: docker.{{.Name}}
+
+volumes:
+  elasticsearch_data:

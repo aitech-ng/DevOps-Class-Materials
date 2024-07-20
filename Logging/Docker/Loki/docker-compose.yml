@@ -1,14 +1,11 @@
-version: "3"
-
-networks:
-  loki:
+version: "3.9"
 
 services:
-
   loki:
     image: grafana/loki:2.4.0
+    container_name: loki
     volumes:
-      - /root/Logging-Loki/loki:/etc/loki
+      - ./loki:/etc/loki
     ports:
       - "3100:3100"
     restart: unless-stopped
@@ -18,9 +15,10 @@ services:
 
   promtail:
     image: grafana/promtail:2.4.0
+    container_name: promtail
     volumes:
       - /var/log:/var/log
-      - /root/Logging-Loki/promtail:/etc/promtail
+      - ./promtail:/etc/promtail
     restart: unless-stopped
     command: -config.file=/etc/promtail/promtail-config.yml
     networks:
@@ -28,11 +26,15 @@ services:
 
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     user: root
     volumes:
-    - /root/Logging-Loki/grafana:/var/lib/grafana
+    - ./grafana:/var/lib/grafana
     ports:
       - "3000:3000"
     restart: unless-stopped
     networks:
       - loki
+
+networks:
+  loki:      

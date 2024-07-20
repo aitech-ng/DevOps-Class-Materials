@@ -14,7 +14,7 @@ groups:
     expr: |
       absent(container_last_seen{name=~".+"})
       or
-      (time() - container_last_seen{name=~".+"} > 60)
+      (time() - container_last_seen{name=~".+"} > 20)
     for: 1m
     labels:
       severity: critical

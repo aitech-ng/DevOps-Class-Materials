@@ -58,31 +58,99 @@ wget https://packages.chef.io/files/stable/chef/17.6.18/ubuntu/20.04/chef_17.6.1
 sudo dpkg -i chef_*.deb
 ```
 
-8. Configure the client:
+8. Copy the validator secret key file to from the Chef server to the client node (you can use scp):
+
+9. Move the key to the correct location. On the client node, move the validator key to the /etc/chef/ directory:
 
 ```bash
-sudo chef-client -S https://chef-server.example.com/organizations/myorg -K /path/to/myorg-validator.pem
+sudo mkdir -p /etc/chef
+sudo mv myorg-validator.pem /etc/chef/
 ```
 
-9. Create a cookbook:
+10. Set correct permissions. Ensure the key has the correct permissions:
 
 ```bash
-chef generate cookbook mycookbook
+sudo chown root:root /etc/chef/myorg-validator.pem
+sudo chmod 600 /etc/chef/myorg-validator.pem
 ```
 
-10. Upload the cookbook to the Chef Server:
+11. Update the client configuration. Create or edit the /etc/chef/client.rb file:
 
 ```bash
-chef generate cookbook mycookbook
+sudo nano /etc/chef/client.rb
 ```
 
-11. Add a recipe to a node's run list:
+Add or update these lines:
+
+```ruby
+chef_server_url 'https://your-chef-server-hostname-or-ip/organizations/myorg'
+validation_client_name 'myorg-validator'
+validation_key '/etc/chef/myorg-validator.pem'
+ssl_verify_mode :verify_none
+node_name  "Node1"
+```
+
+12. Run Chef client:
 
 ```bash
-knife node run_list add NODE_NAME 'recipe[mycookbook::default]'
+sudo chef-client
 ```
 
-12. Run Chef Client on the node:
+13. Configure git Identity:
+
+```bash
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+```
+
+13. Create a cookbook:
+
+```bash
+mkdir -p /var/chef/cookbooks
+cd /var/chef/cookbooks
+chef generate cookbook maincookbook
+cd maincookbook
+```
+
+14. Generate recipes for each component:
+
+```bash
+chef generate recipe docker
+chef generate recipe postgres
+chef generate recipe nginx
+chef generate recipe remote_script
+```
+
+15. Edit the default recipe (recipes/default.rb) to include all other recipes:
+
+```ruby
+include_recipe 'maincookbook::docker'
+include_recipe 'maincookbook::postgres'
+include_recipe 'maincookbook::nginx'
+include_recipe 'maincookbook::remote_script'
+```
+
+16. Create a `files/default` directory in your cookbook and copy the shell script to it:
+
+```bash
+mkdir -p /var/chef/cookbooks/maincookbook/files/default
+cp script.sh cookbooks/maincookbook/files/default/script.sh
+```
+
+17. Upload the cookbook to the Chef Server:
+
+```bash
+echo "ssl_verify_mode :verify_none" >> ~/.chef/knife.rb
+knife cookbook upload maincookbook
+```
+
+18. Add a recipe to a node's run list:
+
+```bash
+knife node run_list add Node1 'recipe[maincookbook::default]'
+```
+
+18. Run Chef client on the node:
 
 ```bash
 sudo chef-client

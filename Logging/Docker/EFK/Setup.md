@@ -22,10 +22,16 @@ cd EFK-Stack
 nano docker-compose.yml
 ```
 
-2. Create a file named `fluentd.conf` in the fluentd/conf sub-folder:
+2. Create a file named `fluent.conf` in the fluentd/conf sub-folder:
 
 ```bash
-nano fluentd/conf/fluentd.conf
+nano fluentd/conf/fluent.conf
+```
+
+2. Create the Dockerfile in the fluentd/ sub-folder:
+
+```bash
+nano fluentd/Dockerfile
 ```
 
 3. Start containers 
@@ -34,4 +40,4 @@ nano fluentd/conf/fluentd.conf
 docker-compose up -d
 ```
 
-4. Open up Kibana's ui on http://<ipaddress>:5601
+4. Open up Kibana's ui on http://ipaddress:5601 > go to stack management > go to index patterns > go to create index patterns and select the index and timestamp > go to discover and filter logs

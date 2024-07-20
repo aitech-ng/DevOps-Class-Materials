@@ -47,10 +47,10 @@ nano alertmanager/alertmanager.yml
 docker-compose up -d
 ```
 
-7. Verify that Grafana is running on http://<ipaddress>:3000 and login with credentials: username: admin, password: admin
+7. Verify that Grafana is running on http://ipaddress:3000 and login with credentials: username: admin, password: admin
 
 
-8. Verify prometheus is running on http://<ipaddress>:9090 and confirm the targets are up by checking: Status > Targets
+8. Verify prometheus is running on http://ipaddress:9090 and confirm the targets are up by checking: Status > Targets
 
 
 ### Grafana Dashboad ids
@@ -66,3 +66,6 @@ CAdvisor
 
 Alerts
 16420
+
+Node exporter and CAdvisor
+179

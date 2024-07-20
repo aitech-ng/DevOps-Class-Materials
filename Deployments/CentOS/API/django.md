@@ -7,7 +7,7 @@ This guide outlines the steps to deploy a Python/Django REST API on a CentOS 9 s
 ```bash
 sudo yum update -y
 ```
-2. Install Python and Development Tools and Install virtual environment package with pip
+2. Install Pip and Install Python virtual environment package with pip
 
 ```bash
 sudo yum install python3-pip -y

@@ -63,11 +63,3 @@ ansible-playbook playbook.yml --extra-vars "variable1=value1 variable2=value2"
 ```bash
 ansible-playbook playbook.yml --check
 ```
-
-## Role Commands
-
-1. Create a new Ansible role:
-
-```bash
-ansible-galaxy init myrole
-```
