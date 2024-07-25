@@ -13,14 +13,6 @@ BACKUP_FILENAME = f"{DB_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.sql"
 AWS_BUCKET = "your_aws_bucket"
 AWS_REGION = "your_aws_region"
 
-# Azure Blob Storage Configuration
-AZURE_CONNECTION_STRING = "your_azure_connection_string"
-AZURE_CONTAINER = "your_azure_container"
-
-# Google Cloud Storage Configuration
-GCS_BUCKET = "your_gcs_bucket"
-GCS_CREDENTIALS_FILE = "path/to/your/gcs_credentials.json"
-
 def create_backup():
     os.makedirs(BACKUP_DIR, exist_ok=True)
     backup_path = os.path.join(BACKUP_DIR, BACKUP_FILENAME)

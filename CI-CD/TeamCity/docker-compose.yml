@@ -31,8 +31,21 @@ services:
     depends_on:
       - server
 
+  oracle-db:
+    image: gvenzl/oracle-xe:latest
+    container_name: oracle-xe
+    ports:
+      - 1521:1521
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    environment:
+      - ORACLE_PASSWORD=your_secure_password_here
+      - APP_USER=your_app_user
+      - APP_USER_PASSWORD=your_app_user_password
+
 volumes:
   data_dir:
   logs_dir:
   agent_dir:
   agent_docker:
+  oracle_data:

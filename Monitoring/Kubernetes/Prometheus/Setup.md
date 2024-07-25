@@ -28,7 +28,7 @@ kubectl create namespace monitoring
 ```bash
 helm install prometheus prometheus-community/kube-prometheus-stack \
   --namespace monitoring \
-  --set grafana.adminPassword=your-secure-password
+  --set grafana.adminPassword=your-secure-password  
 ```
 
 4. This chart includes Prometheus, Grafana, AlertManager, and various exporters.

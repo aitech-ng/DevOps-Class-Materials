@@ -37,7 +37,7 @@ helm install filebeat filebeat/
 5. Accessing Kibana, Port-forward the Kibana service:
 
 ```bash
-kubectl port-forward -n elk svc/kibana-kibana 5601:5601
+kubectl port-forward svc/kibana 5601:80
 ```
 
 Access Kibana at http://localhost:5601
@@ -46,13 +46,13 @@ Access Kibana at http://localhost:5601
 6. Verifying the Setup, Check the status of the pods:
 
 ```bash
-kubectl get pods -n elk
+kubectl get pods
 ```
 
 7. View logs from Filebeat:
 
 ```bash
-kubectl logs -n elk -l app=filebeat-filebeat -f
+kubectl logs -l app=filebeat-filebeat -f
 ```
 
 In Kibana, create an index pattern for filebeat-* to start viewing logs.
