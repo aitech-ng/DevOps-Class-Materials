@@ -20,8 +20,8 @@ test:
   stage: test
   image: ubuntu:22.04
   before_script:
-    - apt-get update
-    - apt-get install -y curl
+    - apt update
+    - apt install -y curl
   script:
     - chmod +x ./test.sh
     - ./test.sh
@@ -35,7 +35,7 @@ deploy:
   stage: deploy
   image: ubuntu:22.04
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || ( apt update -y && apt install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh

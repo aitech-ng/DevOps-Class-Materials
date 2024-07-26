@@ -1,0 +1,14 @@
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+stages:
+  - build
+
+build:
+  stage: build
+  image: gradle:7.4-jdk17
+  script:
+    - ./gradlew build
+  artifacts:
+    paths:
+      - build/libs/*.jar

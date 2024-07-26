@@ -9,8 +9,8 @@ This guide explains how to set up a Puppet Master and Agent configuration.
 ```bash
 wget https://apt.puppetlabs.com/puppet7-release-focal.deb
 sudo dpkg -i puppet7-release-focal.deb
-sudo apt-get update
-sudo apt-get install puppetserver
+sudo apt update
+sudo apt install puppetserver
 ```
 
 2. Configure Puppet Server:
@@ -39,8 +39,8 @@ sudo systemctl enable puppetserver
 ```bash
 wget https://apt.puppetlabs.com/puppet7-release-focal.deb
 sudo dpkg -i puppet7-release-focal.deb
-sudo apt-get update
-sudo apt-get install puppet-agent
+sudo apt update
+sudo apt install puppet-agent
 ```
 
 5. Configure Puppet Agent:

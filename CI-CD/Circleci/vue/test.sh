@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install nginx without interactive prompts
-DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
+DEBIAN_FRONTEND=noninteractive apt install -y nginx
 
 # Remove existing content and copy new content
 rm -rf /var/www/html/*
