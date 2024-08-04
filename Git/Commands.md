@@ -107,7 +107,13 @@ git stash
 - Apply stashed changes:
 
 ```bash
-git stash pop
+git stash apply
+```
+
+- Discard stashed changes:
+
+```bash
+git stash drop
 ```
 
 - Fetch changes from remote:
